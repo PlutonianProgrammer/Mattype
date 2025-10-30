@@ -1,0 +1,16 @@
+.sign-in-page-container {
+  background-color: green;
+  display: flex;
+  justify-content: space-around;
+  height: 500px;
+  margin: 100px;
+  * {
+    padding: 20px;
+  }
+  .sign-up-container {
+    background-color: red;
+  }
+  .sign-in-container {
+    background-color: yellow;
+  }
+}
