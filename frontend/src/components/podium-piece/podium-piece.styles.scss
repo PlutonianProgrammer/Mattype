@@ -1,0 +1,19 @@
+.podium-piece-container {
+  height: 600px;
+  width: 300px;
+  background-color: gray;
+  .medal {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+  }
+  .gold {
+    background-color: gold;
+  }
+  .silver {
+    background-color: silver;
+  }
+  .bronze {
+    background-color: brown;
+  }
+}
