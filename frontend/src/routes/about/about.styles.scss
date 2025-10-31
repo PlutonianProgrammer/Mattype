@@ -1,6 +1,11 @@
 .about-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  background-color: gray;
+  height: 100vh;
+  padding: 10px;
+}
+ul {
+  list-style: none;
+}
+a {
+  color: rgb(66, 255, 66);
 }

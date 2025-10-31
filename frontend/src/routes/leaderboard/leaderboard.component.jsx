@@ -1,17 +1,27 @@
+import BubbleDiv from "../../components/bubble-div/bubble-div.component";
+import Podium from "../../components/podium/podium.component";
+
 import "./leaderboard.styles.scss";
 
 const Leaderboard = () => {
+  const firstPlace = { name: "Alex", placement: 1 };
+  const secondPlace = { name: "Bert", placement: 2 };
+  const thirdPlace = { name: "Carl", placement: 3 };
   return (
     <div className='leaderboard-container'>
-      <div className='left-side'>
-        <h2>Your Placement:</h2>
+      <BubbleDiv className='personal-placement-container'>
+        <h1>Your Placement:</h1>
         <p>1st</p>
-      </div>
+        <h2>Out Of</h2>
+        <p>300 Participants</p>
+      </BubbleDiv>
 
-      <div className='right-side'>
-        <div id='second-place' className='podium'></div>
-        <div id='first-place' className='podium'></div>
-        <div id='third-place' className='podium'></div>
+      <div className='podium-container'>
+        <Podium
+          firstPlace={firstPlace}
+          secondPlace={secondPlace}
+          thirdPlace={thirdPlace}
+        />
       </div>
     </div>
   );

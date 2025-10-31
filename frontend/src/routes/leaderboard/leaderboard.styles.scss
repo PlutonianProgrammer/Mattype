@@ -1,22 +1,17 @@
 .leaderboard-container {
-  background-color: aqua;
+  background-color: gray;
   height: 100vh;
   padding: 10px;
   display: flex;
   justify-content: space-around;
-  .left-side {
-    background-color: red;
-    height: 750px;
+  .personal-placement-container {
     width: 500px;
   }
-  .right-side {
-    background-color: blue;
+  .podium-container {
     height: 750px;
     width: 750px;
-    .podium {
-      background-color: black;
-      height: 50%;
-      box-sizing: border-box;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
