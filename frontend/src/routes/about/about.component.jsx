@@ -1,13 +1,32 @@
-import PodiumPiece from "../../components/podium-piece/podium-piece.component";
-
 import "./about.styles.scss";
-
 const About = () => {
   return (
     <div className='about-container'>
-      <PodiumPiece name='Albert' medalType='gold' />
-      <PodiumPiece name='Bob' medalType='silver' />
-      <PodiumPiece name='Carlos' medalType='bronze' />
+      <h1>About</h1>
+      <h2>My LinkedIn:</h2>
+      <ul>
+        <li>
+          <a>FILLER</a>
+        </li>
+      </ul>
+      <h2>My Github:</h2>
+      <ul>
+        <li>
+          <a>FILLER</a>
+        </li>
+      </ul>
+      <h2>Brief Overview Video of this Project:</h2>
+      <ul>
+        <li>
+          <a>FILLER</a>
+        </li>
+      </ul>
+      <h2>In-Depth Overview Video of this Project:</h2>
+      <ul>
+        <li>
+          <a>FILLER</a>
+        </li>
+      </ul>
     </div>
   );
 };
