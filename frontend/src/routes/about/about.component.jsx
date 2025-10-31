@@ -1,5 +1,15 @@
+import PodiumPiece from "../../components/podium-piece/podium-piece.component";
+
+import "./about.styles.scss";
+
 const About = () => {
-  return <h1>About Page</h1>;
+  return (
+    <div className='about-container'>
+      <PodiumPiece name='Albert' medalType='gold' />
+      <PodiumPiece name='Bob' medalType='silver' />
+      <PodiumPiece name='Carlos' medalType='bronze' />
+    </div>
+  );
 };
 
 export default About;
