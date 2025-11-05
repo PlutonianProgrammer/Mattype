@@ -12,7 +12,9 @@ const About = () => {
       <h2>My Github:</h2>
       <ul>
         <li>
-          <a>FILLER</a>
+          <a href='https://github.com/PlutonianProgrammer'>
+            https://github.com/PlutonianProgrammer
+          </a>
         </li>
       </ul>
       <h2>Brief Overview Video of this Project:</h2>
