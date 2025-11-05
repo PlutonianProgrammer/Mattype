@@ -1,13 +1,10 @@
-import BubbleDiv from "../../components/bubble-div/bubble-div.component";
-import Podium from "../../components/podium/podium.component";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import "./leaderboard.styles.scss";
+import BubbleDiv from "../../components/bubble-div/bubble-div.component";
+import Podium from "../../components/podium/podium.component";
 
-// const firstPlace = { name: "Alex", placement: 1 };
-// const secondPlace = { name: "Bert", placement: 2 };
-// const thirdPlace = { name: "Carl", placement: 3 };
+import "./leaderboard.styles.scss";
 
 const Leaderboard = () => {
   const [firstPlace, setFirstPlace] = useState(null);
@@ -20,13 +17,14 @@ const Leaderboard = () => {
       if (response.ok) {
         try {
           const data = await response.json();
-          console.log(data);
           setFirstPlace(data[0]);
           setSecondPlace(data[1]);
           setThirdPlace(data[2]);
         } catch (e) {
           console.log(e);
         }
+      } else {
+        //TODO: HANDLE ERRORS
       }
     }
 
