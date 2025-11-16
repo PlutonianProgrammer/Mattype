@@ -1,0 +1,137 @@
+import { createContext, useState, useEffect } from "react";
+
+const AUTHENTICATION_URL_HEAD = "http://localhost:8000/userauth/";
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  // useState on access/refresh tokens and user
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("access")
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem("refresh")
+  );
+  const [user, setUser] = useState(null);
+
+  // when accessToken/refreshToken variables affected, change them on browser
+  useEffect(() => {
+    localStorage.setItem("access", accessToken);
+    console.log("USESTATE ACCESS ON", accessToken);
+    fetchUser(accessToken);
+  }, [accessToken]);
+  useEffect(() => {
+    localStorage.setItem("refresh", refreshToken);
+    console.log("USESTATE REFRESH ON", refreshToken);
+  }, [refreshToken]);
+
+  const login = async (username, password) => {
+    console.log("LOG IN EXECUTED");
+    const response = await fetch(AUTHENTICATION_URL_HEAD + "auth/jwt/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setAccessToken(data.access);
+      setRefreshToken(data.refresh);
+      fetchUser(data.access);
+    }
+  };
+
+  const signUp = async (username, password) => {
+    console.log("SIGN-UP EXECUTED");
+    const response = await fetch(AUTHENTICATION_URL_HEAD + "auth/users/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    if (response.ok) {
+      login(username, password);
+    } else {
+      console.log("ERROR IN SIGNUP");
+    }
+  };
+
+  const logout = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setUser(null);
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+  };
+
+  const refreshAccessToken = async () => {
+    // do not call server if refresh token DNE
+    if (refreshToken == null) return;
+
+    console.log("REFRESHING ACCESS TOKEN");
+    // get response from backend
+    const response = await fetch(
+      AUTHENTICATION_URL_HEAD + "auth/jwt/refresh/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh: refreshToken }),
+      }
+    );
+    // get access token from response if applicable
+    if (response.ok) {
+      const data = await response.json();
+      setAccessToken(data.access);
+      return data.access;
+    } else logout();
+  };
+
+  const fetchUser = async (myAccessToken) => {
+    console.log("IN fetchUser");
+
+    // if both tokens DNE, do not try to fetch
+    if (accessToken == null && refreshToken == null) return;
+
+    // tries to get userprofile data
+    const helperFetch = async (token) => {
+      console.log("FETCHING-", token);
+      const response = await fetch(AUTHENTICATION_URL_HEAD + "auth/users/me/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    };
+
+    // try to get userprofile data
+    console.log("INITIAL FETCH");
+    let response = await helperFetch(myAccessToken);
+    // if fails, try with refreshed access token
+    if (!response.ok) {
+      console.log("REFRESHING");
+      myAccessToken = refreshAccessToken();
+      console.log("ACCESS TOKEN REFRESHED- FETCHING AGAIN");
+      response = await helperFetch(myAccessToken);
+    }
+    // if either of the previous attempts work, setUser(data)
+    if (response.ok) {
+      const data = await response.json();
+      console.log("USER DATA:", data);
+      setUser(data);
+    }
+    // neither attempt worked- logout()
+    else logout();
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        accessToken,
+        signUp,
+        login,
+        logout,
+        refreshAccessToken,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
