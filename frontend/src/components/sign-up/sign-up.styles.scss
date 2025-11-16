@@ -1,0 +1,18 @@
+.sign-up-container {
+  display: flex;
+  flex-direction: column;
+  background-color: inherit;
+  padding: 100px;
+  * {
+    font-size: large;
+    padding: 10px;
+  }
+  h2 {
+    font-size: xx-large;
+    color: rgb(66, 255, 66);
+    -webkit-text-stroke: 1px black;
+  }
+  .bubble-div {
+    padding: 0px;
+  }
+}

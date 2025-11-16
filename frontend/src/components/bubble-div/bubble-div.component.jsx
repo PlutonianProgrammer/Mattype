@@ -1,6 +1,10 @@
 import "./bubble-div.styles.scss";
-const BubbleDiv = ({ children }) => {
-  return <div className='bubble-div'>{children}</div>;
+const BubbleDiv = ({ id, children }) => {
+  return (
+    <div id={id} className='bubble-div'>
+      {children}
+    </div>
+  );
 };
 
 export default BubbleDiv;

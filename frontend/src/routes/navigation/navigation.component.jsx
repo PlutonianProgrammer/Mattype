@@ -1,7 +1,14 @@
 import { Outlet, Link } from "react-router-dom";
-import "./navigation.styles.scss";
+import { useContext } from "react";
+
 import BubbleDiv from "../../components/bubble-div/bubble-div.component";
+
+import { AuthContext } from "../../contexts/AuthContext";
+
+import "./navigation.styles.scss";
+
 const Navigation = () => {
+  const { user, logout } = useContext(AuthContext);
   return (
     <>
       <div className='nav-bar'>
@@ -20,9 +27,15 @@ const Navigation = () => {
         <BubbleDiv>
           <Link to='/about'>About</Link>
         </BubbleDiv>
-        <BubbleDiv>
-          <Link to='/sign-in'>Sign-In</Link>
-        </BubbleDiv>
+        {!user ? (
+          <BubbleDiv>
+            <Link to='/auth'>Sign-In</Link>
+          </BubbleDiv>
+        ) : (
+          <BubbleDiv>
+            <button onClick={logout}>Logout</button>
+          </BubbleDiv>
+        )}
       </div>
       <Outlet />
     </>
