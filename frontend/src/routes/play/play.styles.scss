@@ -23,9 +23,22 @@
     div {
       display: inline-block;
       width: max-content;
-      background-color: rgb(66, 255, 66);
       white-space: pre;
-      color: black;
     }
   }
+}
+
+.untyped {
+  background-color: black;
+  color: white;
+}
+
+.correct {
+  background-color: rgb(66, 255, 66);
+  color: black;
+}
+
+.wrong {
+  background-color: red;
+  color: black;
 }
