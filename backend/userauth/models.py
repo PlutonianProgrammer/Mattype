@@ -5,6 +5,8 @@ from django.db import models
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     wpm_log = models.FileField(upload_to='wpm_log/')
+    avg_wpm = models.FloatField()
+    best_wpm = models.FloatField()
 
     def get_wpm_log(self):
         #LOGIC NEEDED

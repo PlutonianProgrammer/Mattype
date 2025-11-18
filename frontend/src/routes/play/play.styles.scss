@@ -1,0 +1,31 @@
+.play-page {
+  background-color: gray;
+  height: 100vh;
+  padding: 75px;
+  .heads-up-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: gray;
+    border: 5px solid rgb(81, 81, 81);
+    border-radius: 5px;
+    color: rgb(66, 255, 66);
+  }
+  .paragraph-holder {
+    font-family: "Courier New", Courier, monospace;
+    background-color: black;
+    color: white;
+    display: -ms-inline-grid;
+    grid-template-columns: repeat(30, 1fr);
+    border: 10px solid rgb(81, 81, 81);
+    border-radius: 5px;
+    margin: 40px;
+    div {
+      display: inline-block;
+      width: max-content;
+      background-color: rgb(66, 255, 66);
+      white-space: pre;
+      color: black;
+    }
+  }
+}
