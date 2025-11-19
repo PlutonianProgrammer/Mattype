@@ -1,7 +1,9 @@
 .play-page {
   background-color: gray;
   height: 100vh;
-  padding: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .heads-up-display {
     display: flex;
     flex-direction: row;
