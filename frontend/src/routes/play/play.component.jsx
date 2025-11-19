@@ -26,16 +26,24 @@ const Play = () => {
 
   if (phase == 1) {
     return (
-      <button
-        onClick={() => {
-          setPhase(2);
-        }}
-      >
-        START
-      </button>
+      <div className='play-page'>
+        <BubbleDiv>
+          <button
+            onClick={() => {
+              setPhase(2);
+            }}
+          >
+            START
+          </button>
+        </BubbleDiv>
+      </div>
     );
   } else if (phase == 2) {
-    return <h1>{timeUntilStart}</h1>;
+    return (
+      <div className='play-page'>
+        <h1>{timeUntilStart}</h1>
+      </div>
+    );
   } else if (phase == 3) {
     return <InPlay />;
   }
