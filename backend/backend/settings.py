@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'userauth',
 ]
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -63,7 +65,10 @@ MIDDLEWARE = [
 
 DJOSER = {
     'LOGIN_FIELD': 'username',
-    'USER_CREATE_PASSWORD_RETYPE': False,
+    # 'USER_CREATE_PASSWORD_RETYPE': False,
+    # 'SERIALIZERS': {
+    #     'user_create': 'userauth.serializers.OverrideSerializer'
+    # }
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
