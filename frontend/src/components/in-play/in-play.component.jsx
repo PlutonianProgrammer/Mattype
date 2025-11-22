@@ -1,7 +1,37 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+import "./in-play.styles.scss";
 const InPlay = () => {
+  const navigate = useNavigate();
+  // TIMER
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  useEffect(() => {
+    const startTime = new Date();
+    const intervalID = setInterval(() => {
+      setTimeElapsed(new Date() - startTime);
+    });
+    return () => clearInterval(intervalID);
+  }, []);
+
+  // Make the player 'focus' in order to accept input
+  const makePlayerFocus = useRef(null);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code == "Space") {
+        e.preventDefault();
+        console.log("SPACE PRESSED");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    makePlayerFocus.current.focus();
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const paragraph =
-    'Wolverine is a superhero who appears in American comic books published by Marvel Comics. The character first appeared in the comic book The Incredible Hulk #180 (1974) and is best known as a member of the superhero team the X-Men. Wolverine is the alias of James Howlett (also known as Logan), a mutant born in Canada in the late 19th century. He possesses a range of superpowers including highly advanced self-healing abilities, a significantly prolonged lifespan, animal-keen senses, and retractable claws. His skeleton is reinforced with the unbreakable fictional metal adamantium, which he acquired after becoming an unwilling test subject in the Weapon X super soldier program. Wolverine is commonly depicted as a gruff loner susceptible to animalistic "berserker rages" who struggles to reconcile his humanity with his wild nature.';
+    "Wolverine is a superhero who appears in American comic books published by Marvel Comics. The character first ";
 
   const charIndexRef = useRef(0);
   const [wordsTyped, setWordsTyped] = useState(0);
@@ -32,51 +62,58 @@ const InPlay = () => {
     if (charIndexRef.current == paragraph.length) quit();
   };
 
-  // TIME
-  const [timeElapsed, setTimeElapsed] = useState(0);
-
-  useEffect(() => {
-    const startTime = new Date();
-    setInterval(() => {
-      setTimeElapsed(new Date() - startTime);
-    });
-  }, []);
+  const [quitted, setQuitted] = useState(false);
 
   const quit = () => {
-    let realMistakesCount = mistakesCount;
-    if (!madeMistakeInCurrentWord) realMistakesCount++;
-    alert(
-      `WORDS TYPED: ${wordsTyped} | MISTAKES MADE: ${mistakesCount} | TIME: ${
-        timeElapsed / 1000
-      }s`
-    );
+    // Account for edge case
+    if (!madeMistakeInCurrentWord) setMistakesCount(mistakesCount + 1);
+    setQuitted(true);
   };
 
-  return (
-    <div className='play-page'>
-      <div className='heads-up-display'>
-        <div className='words-typed-container'>
-          <span>Words Typed: {wordsTyped}</span>
-        </div>
-        <div className='mistakes-container'>
-          <span>Mistakes Made: {mistakesCount}</span>
-        </div>
-        <div className='time-container'>
-          <span>Time Elapsed: {timeElapsed / 1000}s</span>
-        </div>
-      </div>
-      <div className='paragraph-holder' onKeyDown={handleKeyPress} tabIndex={0}>
-        {paragraph.split("").map((char, idx) => (
-          <div className='untyped' id={`LETTER-${idx}`} key={idx}>
-            {char}
+  if (!quitted) {
+    return (
+      <div className='in-play-page'>
+        <div className='heads-up-display'>
+          <div className='words-typed-container of-heads-up'>
+            <span>Words Typed: {wordsTyped}</span>
           </div>
-        ))}
+          <div className='mistakes-container of-heads-up'>
+            <span>Mistakes Made: {mistakesCount}</span>
+          </div>
+          <div className='time-container of-heads-up'>
+            <span>Time Elapsed: {timeElapsed / 1000}s</span>
+          </div>
+        </div>
+        <div
+          className='paragraph-holder'
+          ref={makePlayerFocus}
+          onKeyDown={handleKeyPress}
+          tabIndex={0}
+        >
+          {paragraph.split("").map((char, idx) => (
+            <div className='untyped' id={`LETTER-${idx}`} key={idx}>
+              {char}
+            </div>
+          ))}
+        </div>
+        <div className='quit-container'>
+          <button onClick={quit}>QUIT</button>
+        </div>
       </div>
-      <div className='quit-container'>
-        <button onClick={quit}>QUIT</button>
-      </div>
-    </div>
-  );
+    );
+  } else {
+    if (charIndexRef.current == paragraph.length) {
+      return (
+        <div>
+          <h1>{wordsTyped}</h1>
+          <h1>{timeElapsed}</h1>
+          <h1>{mistakesCount}</h1>
+        </div>
+      );
+    } else {
+      navigate("/");
+    }
+  }
 };
 
 export default InPlay;
