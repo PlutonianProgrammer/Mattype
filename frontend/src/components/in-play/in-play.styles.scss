@@ -1,17 +1,19 @@
-.play-page {
+.in-play-page {
   background-color: gray;
   height: 100vh;
   padding: 75px;
-  display: flex;
-  flex-direction: column;
   .heads-up-display {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     background-color: gray;
     border: 5px solid rgb(81, 81, 81);
     border-radius: 5px;
     color: rgb(66, 255, 66);
+    .of-heads-up {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   .paragraph-holder {
     font-family: "Courier New", Courier, monospace;
