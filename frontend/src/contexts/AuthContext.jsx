@@ -52,6 +52,12 @@ export const AuthProvider = ({ children }) => {
       login(username, password);
     } else {
       console.log("ERROR IN SIGNUP");
+      // const text = await response.text();
+      // console.log(text);
+      const errorData = await response
+        .json()
+        .catch(async () => ({ text: await response.text() }));
+      console.error("Signup failed:", errorData);
     }
   };
 
