@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xhbj6a(4kq9wrucr*x+ekz0*jd2*x)=-j0z--bvbdbgjtm3m%5'
+SECRET_KEY = 'django-insecure-_v_2tz67f9w!sr8mv2)&$pad^@vs_d1z*v0-j-1@5y+2n5638n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,23 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
-    'corsheaders',
+
+    # MY STUFF
     'userauth',
+    # Djoser
+    'rest_framework',
+    'djoser',
+    # Corsheaders
+    'corsheaders',
 ]
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
-}
-
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,17 +55,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Corsheaders:
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
-DJOSER = {
-    'LOGIN_FIELD': 'username',
-    # 'USER_CREATE_PASSWORD_RETYPE': False,
-    # 'SERIALIZERS': {
-    #     'user_create': 'userauth.serializers.OverrideSerializer'
-    # }
-}
+# Cors allowed origins
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# Djoser:
+USER_CREATE_PASSWORD_RETYPE = True
+
 
 ROOT_URLCONF = 'backend.urls'
 
