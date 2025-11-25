@@ -1,13 +1,14 @@
-from django.db.models.signals import post_save
+from .models import CustomUser
 from django.dispatch import receiver
-from django.contrib.auth.models import User
-from .models import UserProfile
+from django.db.models.signals import post_save
 from django.core.files.base import ContentFile
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        blank_csv = 'time,wpm\n'
-        profile = UserProfile(user=instance)
-        profile.wpm_log.save(f'{instance.username}_log.csv', ContentFile(blank_csv))
-        profile.save()
+@receiver(post_save, sender=CustomUser)
+def create_default_file(sender, instance, created, **kwargs):
+    if created and not instance.profile_file:
+        name = f'{instance.username}.csv'
+        content = 'content'
+        instance.wpm_log.save(name, ContentFile(content.encode('utf-8')))
+
+        # Save to DB
+        instance.save()
