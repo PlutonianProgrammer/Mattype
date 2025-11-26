@@ -11,18 +11,19 @@ const Stats = () => {
 
   return (
     <div className='stats-page-container'>
-      <div className='left-side'>
-        <h1>My Stats</h1>
-        <BubbleDiv>
-          <h3>Best WPM: {}</h3>
-          <h3>Avg WPM: {}</h3>
-          <h3>My Placement: {}</h3>
-        </BubbleDiv>
+      <div className='my-stats-container'>
+        {user && (
+          <BubbleDiv>
+            <h1>My Stats</h1>
+            <h3>Best WPM: {user.best_wpm.toFixed(2)} wps</h3>
+            <h3>Avg WPM: {user.avg_wpm.toFixed(2)} wps</h3>
+            <h3>My Placement: {}</h3>
+          </BubbleDiv>
+        )}
       </div>
-
-      <div className='graph-container'></div>
-
-      <div className='right-side'></div>
+      <div className='graph-container'>
+        <div className='graph-placeholder' />
+      </div>
     </div>
   );
 };
