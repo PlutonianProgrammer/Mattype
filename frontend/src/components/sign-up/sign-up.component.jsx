@@ -9,11 +9,15 @@ import "./sign-up.styles.scss";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
+  const [email, setEmail] = useState("");
   const { signUp } = useContext(AuthContext);
   const handleSubmit = () => {
     signUp(username, password);
     setUsername("");
     setPassword("");
+    setRePassword("");
+    setEmail("");
   };
   return (
     <div className='sign-up-container'>
@@ -27,6 +31,16 @@ const SignUp = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder='password'
+      />
+      <input
+        value={rePassword}
+        onChange={(e) => setRePassword(e.target.value)}
+        placeholder='re-password'
+      />
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder='email'
       />
       <BubbleDiv>
         <button onClick={handleSubmit}>Sign Up</button>

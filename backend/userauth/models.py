@@ -17,12 +17,12 @@ class CustomUser(AbstractUser):
         # Write new score to CSV
         now = datetime.now()
         day = now.strftime('%m-%d-%Y')
-        with open (self.wpm_log, 'a', newline='') as log:
+        with open (self.wpm_log.path, 'a', newline='') as log:
             writer = csv.writer(log)
             writer.writerow(day, new_wpm)
         self.wpm_log.save()
         # Recalculate avg wpm
-        with open(self.wpm_log) as log:
+        with open(self.wpm_log.path) as log:
             sum_of_wpm = 0
             count = 0
             reader = csv.DictReader(log)

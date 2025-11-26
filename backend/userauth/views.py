@@ -14,6 +14,6 @@ class update_user_score_records(APIView):
         wpm = request.data.get('wpm')
         if wpm is None:
             return Response({'error': 'No WPM specified'}, status=status.HTTP_400_BAD_REQUEST)
-        user = CustomUser.objects.get(owner=request.user)
+        user = request.user
         user.update_score_record(float(wpm))
         return Response(status=204)

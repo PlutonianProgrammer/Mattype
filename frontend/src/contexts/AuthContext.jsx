@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     console.log("LOG IN EXECUTED");
-    const response = await fetch(AUTHENTICATION_URL_HEAD + "auth/jwt/create", {
+    const response = await fetch(AUTHENTICATION_URL_HEAD + "jwt/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -41,23 +41,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signUp = async (username, password) => {
+  const signUp = async (username, password, re_password, email) => {
     console.log("SIGN-UP EXECUTED");
     const response = await fetch(AUTHENTICATION_URL_HEAD + "users/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, re_password, email }),
     });
     if (response.ok) {
       login(username, password);
     } else {
       console.log("ERROR IN SIGNUP");
-      // const text = await response.text();
-      // console.log(text);
-      const errorData = await response
-        .json()
-        .catch(async () => ({ text: await response.text() }));
-      console.error("Signup failed:", errorData);
+      console.error("Signup failed:", response);
     }
   };
 
