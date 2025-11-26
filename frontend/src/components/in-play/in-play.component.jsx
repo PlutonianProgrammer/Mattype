@@ -49,7 +49,7 @@ const InPlay = () => {
   }, []);
 
   const paragraph =
-    "Wolverine is a superhero who appears in American comic books published by Marvel Comics. The character first ";
+    "The Hulk is a superhero appearing in American comic books published by Marvel Comics. Created by writer Stan Lee";
 
   const charIndexRef = useRef(0);
   const madeMistakeInCurrentWord = useRef(false);

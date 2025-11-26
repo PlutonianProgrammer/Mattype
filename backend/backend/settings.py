@@ -47,6 +47,14 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'userauth.serializers.CustomUserCreateSerializer',
+        'user': 'userauth.serializers.CustomUserDataSerializer',
+        'current_user': 'userauth.serializers.CustomUserDataSerializer',
+    }
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -68,12 +76,13 @@ MIDDLEWARE = [
 
 # Cors allowed origins
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',
+    'http://localhost:3000',
 ]
 
 # Djoser:
 USER_CREATE_PASSWORD_RETYPE = True
 
+AUTH_USER_MODEL = 'userauth.CustomUser'
 
 ROOT_URLCONF = 'backend.urls'
 
