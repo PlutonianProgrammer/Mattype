@@ -7,8 +7,9 @@ from django.core.files.base import ContentFile
 def create_default_file(sender, instance, created, **kwargs):
     if created and not instance.profile_file:
         name = f'{instance.username}.csv'
-        content = 'content'
+        content = 'day, wpm\n'
         instance.wpm_log.save(name, ContentFile(content.encode('utf-8')))
+    else:
 
         # Save to DB
         instance.save()

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
-const AUTHENTICATION_URL_HEAD = "http://localhost:8000/userauth/";
+const AUTHENTICATION_URL_HEAD = "http://localhost:8000/userauth/auth/";
 
 export const AuthContext = createContext();
 
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = async (username, password) => {
     console.log("SIGN-UP EXECUTED");
-    const response = await fetch(AUTHENTICATION_URL_HEAD + "auth/users/", {
+    const response = await fetch(AUTHENTICATION_URL_HEAD + "users/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -75,14 +75,11 @@ export const AuthProvider = ({ children }) => {
 
     console.log("REFRESHING ACCESS TOKEN");
     // get response from backend
-    const response = await fetch(
-      AUTHENTICATION_URL_HEAD + "auth/jwt/refresh/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refresh: refreshToken }),
-      }
-    );
+    const response = await fetch(AUTHENTICATION_URL_HEAD + "jwt/refresh/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh: refreshToken }),
+    });
     // get access token from response if applicable
     if (response.ok) {
       const data = await response.json();
@@ -100,7 +97,7 @@ export const AuthProvider = ({ children }) => {
     // tries to get userprofile data
     const helperFetch = async (token) => {
       console.log("FETCHING-", token);
-      const response = await fetch(AUTHENTICATION_URL_HEAD + "auth/users/me/", {
+      const response = await fetch(AUTHENTICATION_URL_HEAD + "users/me/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response;
