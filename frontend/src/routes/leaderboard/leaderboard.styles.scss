@@ -1,17 +1,7 @@
 .leaderboard-container {
   background-color: gray;
   height: 100vh;
-  padding: 10px;
-  display: flex;
-  justify-content: space-around;
-  .personal-placement-container {
-    width: 500px;
-  }
-  .podium-container {
-    height: 750px;
-    width: 750px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  padding: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
