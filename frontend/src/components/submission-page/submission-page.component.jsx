@@ -1,5 +1,7 @@
 import { useState, useContext, useRef } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { PlayContext } from "../../contexts/PlayContext";
 
 import { AuthContext } from "../../contexts/AuthContext";
@@ -8,6 +10,18 @@ import BubbleDiv from "../bubble-div/bubble-div.component";
 
 import "./submission-page.styles.scss";
 const SubmissionPage = () => {
+  const {
+    wordsTyped,
+    mistakesCount,
+    timeElapsed,
+    setPhase,
+    setWordsTyped,
+    setMistakesCount,
+    setTimeElapsed,
+  } = useContext(PlayContext);
+  const { accessToken, refreshAccessToken } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const submitScore = async (token, wpm) => {
     const response = await fetch(
       "http://localhost:8000/userauth/submit-score/",
@@ -41,16 +55,15 @@ const SubmissionPage = () => {
       if (!response.ok) {
         console.log("FAILED");
         console.log(response);
-      } else {
-        console.log("SECOND TRY WORKED");
+        return;
       }
-    } else {
-      console.log("SUCCESS WITH SUBMITSCORE");
     }
+    setPhase(1);
+    setWordsTyped(0);
+    setMistakesCount(0);
+    setTimeElapsed(0);
+    navigate("/");
   };
-
-  const { wordsTyped, mistakesCount, timeElapsed } = useContext(PlayContext);
-  const { accessToken, refreshAccessToken } = useContext(AuthContext);
 
   return (
     <div className='submission-page-container'>
