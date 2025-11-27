@@ -33,7 +33,7 @@ const Navigation = () => {
           </BubbleDiv>
         ) : (
           <BubbleDiv>
-            <button onClick={logout}>Logout</button>
+            <button onClick={logout}>Logout- {user.username}</button>
           </BubbleDiv>
         )}
       </div>

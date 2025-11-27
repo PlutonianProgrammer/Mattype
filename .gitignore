@@ -29,7 +29,7 @@ __pycache__/
 *.py[cod]
 db.sqlite3
 */migrations/*.py
-*/migrations/*
+**/migrations/*
 !*/migrations/__init__.py
 
-/wpm_log/
+**/uploads/*
