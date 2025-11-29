@@ -18,11 +18,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("access", accessToken);
     //console.log("USESTATE ACCESS ON", accessToken);
-    fetchUser(accessToken);
   }, [accessToken]);
   useEffect(() => {
     localStorage.setItem("refresh", refreshToken);
     //console.log("USESTATE REFRESH ON", refreshToken);
+    fetchUser(accessToken);
   }, [refreshToken]);
 
   const login = async (username, password) => {
@@ -66,7 +66,10 @@ export const AuthProvider = ({ children }) => {
 
   const refreshAccessToken = async () => {
     // do not call server if refresh token DNE
-    if (refreshToken == null) return;
+
+    if (refreshToken == "null" || refreshToken == null) {
+      return;
+    }
 
     //console.log("REFRESHING ACCESS TOKEN");
     // get response from backend
@@ -83,12 +86,15 @@ export const AuthProvider = ({ children }) => {
     } else logout();
   };
 
-  const fetchUser = async (myAccessToken) => {
+  const fetchUser = async () => {
     // if both tokens DNE, do not try to fetch
-    console.log("SAUTTJSPLKDHFLKJSGHDFLKHVSLJKDHCVB");
-    console.log(accessToken, typeof accessToken);
-    console.log(refreshToken, typeof refreshToken);
-    if (accessToken == "null" && refreshToken == "null") return;
+
+    if (
+      (accessToken == "null" || accessToken == null) &&
+      (refreshToken == "null" || refreshToken == null)
+    ) {
+      return;
+    }
 
     // // tries to get userprofile data
     // const helperFetch = async (token) => {
@@ -142,12 +148,12 @@ export const AuthProvider = ({ children }) => {
       }
 
       // auth
-      if (token != "null") {
-        console.log("TOKEN:", token, typeof token);
+      if (token != "null" && token != null) {
+        //console.log("TOKEN:", token, typeof token);
         fetchObj.headers = fetchObj.headers || {};
         fetchObj.headers.Authorization = `Bearer ${token}`;
       }
-      console.log("OBJECT:", fetchObj);
+      //console.log("OBJECT:", fetchObj);
       return fetchObj;
     };
     let response = null;

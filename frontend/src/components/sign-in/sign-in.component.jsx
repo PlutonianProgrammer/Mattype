@@ -25,6 +25,7 @@ const SignIn = () => {
       />
       <input
         value={password}
+        type='password'
         onChange={(e) => setPassword(e.target.value)}
         placeholder='password'
       />

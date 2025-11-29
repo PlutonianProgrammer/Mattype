@@ -3,10 +3,10 @@ const About = () => {
   return (
     <div className='about-container'>
       <h1>About</h1>
-      <h2>My LinkedIn:</h2>
+      <h2>My Email:</h2>
       <ul>
         <li>
-          <a>FILLER</a>
+          <a>plutonianprogrammer@gmail.com</a>
         </li>
       </ul>
       <h2>My Github:</h2>
@@ -14,6 +14,14 @@ const About = () => {
         <li>
           <a href='https://github.com/PlutonianProgrammer'>
             https://github.com/PlutonianProgrammer
+          </a>
+        </li>
+      </ul>
+      <h2>My LinkedIn:</h2>
+      <ul>
+        <li>
+          <a href='https://www.linkedin.com/in/rame-passi-7ba024368/'>
+            https://www.linkedin.com/in/rame-passi-7ba024368/
           </a>
         </li>
       </ul>
