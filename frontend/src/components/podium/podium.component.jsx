@@ -2,11 +2,12 @@ import PodiumPiece from "../podium-piece/podium-piece.component";
 
 import "./podium.styles.scss";
 const Podium = ({ firstPlace, secondPlace, thirdPlace }) => {
+  console.log(firstPlace, typeof firstPlace);
   return (
     <div className='podium-container'>
-      {secondPlace && <PodiumPiece name={secondPlace.username} placement='2' />}
-      {firstPlace && <PodiumPiece name={firstPlace.username} placement='1' />}
-      {thirdPlace && <PodiumPiece name={thirdPlace.username} placement='3' />}
+      {secondPlace && <PodiumPiece user={secondPlace} placement='2' />}
+      {firstPlace && <PodiumPiece user={firstPlace} placement='1' />}
+      {thirdPlace && <PodiumPiece user={thirdPlace} placement='3' />}
     </div>
   );
 };

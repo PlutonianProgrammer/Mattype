@@ -28,19 +28,22 @@ const SignUp = () => {
         placeholder='username'
       />
       <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type='email'
+        placeholder='email (optional)'
+      />
+      <input
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        type='password'
         placeholder='password'
       />
       <input
         value={rePassword}
         onChange={(e) => setRePassword(e.target.value)}
+        type='password'
         placeholder='re-password'
-      />
-      <input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder='email'
       />
       <BubbleDiv>
         <button onClick={handleSubmit}>Sign Up</button>

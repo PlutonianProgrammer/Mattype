@@ -9,7 +9,8 @@ const PLACEMENT_TO_MEDAL_COLOR = {
   2: "silver",
   3: "brown",
 };
-const PodiumPiece = ({ name, placement }) => {
+const PodiumPiece = ({ user, placement }) => {
+  console.log("USER", user);
   return (
     <div className='podium-piece-container'>
       <div
@@ -21,8 +22,11 @@ const PodiumPiece = ({ name, placement }) => {
         style={{ height: `${PLACEMENT_TO_HEIGHT[placement]}%` }}
       >
         <h3 style={{ color: `${PLACEMENT_TO_MEDAL_COLOR[placement]}` }}>
-          {name}
+          {user.username}
         </h3>
+        <p style={{ color: `${PLACEMENT_TO_MEDAL_COLOR[placement]}` }}>
+          {(user.best_wpm || user.avg_wpm).toFixed(2)} WPM
+        </p>
       </div>
     </div>
   );

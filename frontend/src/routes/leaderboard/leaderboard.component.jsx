@@ -15,55 +15,61 @@ const Leaderboard = () => {
   const [placement, setPlacement] = useState(0);
   const [participants, setParticipants] = useState(0);
 
+  const [scoreToFetch, setScoreToFetch] = useState("avg");
+
   const { user, helperFetch } = useContext(AuthContext);
 
-  useEffect(() => {
-    async function fetchData() {
-      // const newToken = refreshAccessToken();
-      // let response = await fetch(
-      //   "http://localhost:8000/userauth/get-leaderboard-placement-best/",
-      //   {
-      //     headers: { Authorization: `Bearer ${newToken}` },
-      //   }
-      // );
-      // if (!response.ok) {
-      //   const newToken = await refreshAccessToken();
-      //   response = await fetch(
-      //     "http://localhost:8000/userauth/get-leaderboard-placement-best/",
-      //     {
-      //       headers: { Authorization: `Bearer ${newToken}` },
-      //     }
-      //   );
-      //   if (!response.ok) {
-      //     console.log("FETCHING LEADERBOARD FAILED");
-      //     return;
-      //   }
-      // }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const response = await helperFetch(
+  //       "http://localhost:8000/userauth/get-leaderboard-placement-best/",
+  //       "GET",
+  //       null
+  //     );
+  //     console.log("LOGGING:", response);
+  //     const data = await response.json();
+  //     console.log("DATA:", data);
+  //     setFirstPlace(data.first);
+  //     setSecondPlace(data.second);
+  //     setThirdPlace(data.third);
+  //     setPlacement(data.placement);
+  //     setParticipants(data.participants);
+  //   }
 
-      const response = helperFetch(
-        "http://localhost:8000/userauth/get-leaderboard-placement-best/",
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("FETCHING");
+      const response = await helperFetch(
+        `http://localhost:8000/userauth/get-leaderboard-placement-${scoreToFetch}/`,
         "GET",
         null
       );
-      try {
-        console.log("LOGGING:", response);
-        const data = await response.json();
-        console.log("DATA:", data);
-        setFirstPlace(data.first);
-        setSecondPlace(data.second);
-        setThirdPlace(data.third);
-        setPlacement(data.placement);
-        setParticipants(data.participants);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
+      const data = await response.json();
+      console.log(data);
+      setFirstPlace(data.first);
+      setSecondPlace(data.second);
+      setThirdPlace(data.third);
+      setPlacement(data.placement);
+      setParticipants(data.participants);
+    };
     fetchData();
-  }, []);
+  }, [scoreToFetch]);
+
+  const switchScoreToFetch = () => {
+    if (scoreToFetch == "best") setScoreToFetch("avg");
+    else setScoreToFetch("best");
+  };
 
   return (
     <div className='leaderboard-container'>
+      <BubbleDiv>
+        <button onClick={switchScoreToFetch}>
+          Switch To {scoreToFetch == "best" ? "Average WPM" : "Best WPM"}
+        </button>
+      </BubbleDiv>
       <BubbleDiv className='leaderboard-my-stats'>
         <h1>Leaderboard</h1>
         {user && (
