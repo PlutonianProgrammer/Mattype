@@ -84,31 +84,36 @@ export const AuthProvider = ({ children }) => {
   };
 
   const fetchUser = async (myAccessToken) => {
-    console.log("IN fetchUser");
-
     // if both tokens DNE, do not try to fetch
     if (accessToken == null && refreshToken == null) return;
 
-    // tries to get userprofile data
-    const helperFetch = async (token) => {
-      console.log("FETCHING-", token);
-      const response = await fetch(AUTHENTICATION_URL_HEAD + "users/me/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response;
-    };
+    // // tries to get userprofile data
+    // const helperFetch = async (token) => {
+    //   console.log("FETCHING-", token);
+    //   const response = await fetch(AUTHENTICATION_URL_HEAD + "users/me/", {
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   });
+    //   return response;
+    // };
 
-    // try to get userprofile data
-    console.log("INITIAL FETCH");
-    let response = await helperFetch(myAccessToken);
-    // if fails, try with refreshed access token
-    if (!response.ok) {
-      console.log("REFRESHING");
-      myAccessToken = refreshAccessToken();
-      console.log("ACCESS TOKEN REFRESHED- FETCHING AGAIN");
-      response = await helperFetch(myAccessToken);
-    }
-    // if either of the previous attempts work, setUser(data)
+    // // try to get userprofile data
+    // console.log("INITIAL FETCH");
+    // let response = await helperFetch(myAccessToken);
+    // // if fails, try with refreshed access token
+    // if (!response.ok) {
+    //   console.log("REFRESHING");
+    //   myAccessToken = refreshAccessToken();
+    //   console.log("ACCESS TOKEN REFRESHED- FETCHING AGAIN");
+    //   response = await helperFetch(myAccessToken);
+    // }
+    // // if either of the previous attempts work, setUser(data)
+
+    const response = await helperFetch(
+      AUTHENTICATION_URL_HEAD + "users/me/",
+      "GET",
+      null
+    );
+
     if (response.ok) {
       const data = await response.json();
       console.log("USER DATA:", data);
@@ -118,15 +123,50 @@ export const AuthProvider = ({ children }) => {
     else logout();
   };
 
+  const helperFetch = async (url, method, payload) => {
+    const createFetchObj = (token) => {
+      const fetchObj = {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      if (payload != null) {
+        fetchObj.body = JSON.stringify(payload);
+      }
+      return fetchObj;
+    };
+    let response = null;
+
+    // Initial Fetch:
+    response = await fetch(url, createFetchObj(accessToken));
+
+    // Try again with refresh token if applicable
+    if (refreshToken != null || !response.ok) {
+      const newAccessToken = await refreshAccessToken();
+      response = await fetch(url, createFetchObj(newAccessToken));
+
+      // If another failure
+      if (!response.ok) {
+        console.log(`FETCHING ${url} FAILED`);
+      }
+    }
+
+    // return response anyways
+    return response;
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
-        accessToken,
+
         signUp,
         login,
         logout,
-        refreshAccessToken,
+
+        helperFetch,
       }}
     >
       {children}

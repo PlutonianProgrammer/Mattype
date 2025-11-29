@@ -4,7 +4,8 @@ from rest_framework import permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from django.http import JsonResponse
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
 from .models import CustomUser
 
@@ -19,17 +20,19 @@ class update_user_score_records(APIView):
         user = request.user
         user.update_score_record(float(wpm))
         return Response(status=204)
-    
-def leaderboard_placement_best(request):
+
+def helper_leaderboard(score_type_str, username):
+
     def fill_dict(dictionary, user):
         dictionary['username'] = user.username
-        dictionary['best_wpm'] = user.best_wpm
-    users = CustomUser.objects.order_by('-best_wpm')
+        dictionary[score_type_str] = user.best_wpm if score_type_str == 'best_wpm' else user.avg_wpm
+
+    users = CustomUser.objects.order_by(f'-{score_type_str}')
     participants = len(users)
     first, second, third = {}, {}, {}
     placement = -1
     count = 1
-    filled_fields = 0 if request.user.is_authenticated else 1
+    filled_fields = 0 if username != None else 1
     for user in users:
         if filled_fields == 4:
             break
@@ -43,13 +46,13 @@ def leaderboard_placement_best(request):
             fill_dict(third, user)
             filled_fields += 1
             
-        if request.user.is_authenticated and user.username == request.user.username:
+        if username != None and user.username == username:
             placement = count
             filled_fields += 1
         else:
             count += 1
 
-    return JsonResponse({
+    return Response({
         'first': first,
         'second': second,
         'third': third,
@@ -57,37 +60,12 @@ def leaderboard_placement_best(request):
         'participants': participants,
     })
 
-def leaderboard_placement_avg(request):
-    def fill_dict(dictionary, user):
-        dictionary['username'] = user.username
-        dictionary['best_wpm'] = user.avg_wpm
-    users = CustomUser.objects.order_by('-avg_wpm')
-    first, second, third = {}, {}, {}
-    placement = -1
-    count = 1
-    filled_fields = 0 if user.is_authenticated else 1
-    for user in users:
-        if filled_fields == 4:
-            break
-        if not first:
-            fill_dict(first, user)
-            filled_fields += 1
-        elif not second:
-            fill_dict(second, user)
-            filled_fields += 1
-        elif not third:
-            fill_dict(third, user)
-            filled_fields += 1
-            
-        if request.user.is_authenticated and user.username == request.user.username:
-            placement = count
-            filled_fields += 1
-        else:
-            count += 1
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def leaderboard_placement_best(request):
+    return helper_leaderboard('best_wpm', request.user.username if request.user.is_authenticated else None)
 
-    return JsonResponse({
-        'first': first,
-        'second': second,
-        'third': third,
-        'placement': placement
-    })
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def leaderboard_placement_avg(request):
+    return helper_leaderboard('avg_wpm', request.user.username if request.user.is_authenticated else None)
