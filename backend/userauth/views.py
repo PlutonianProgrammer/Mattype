@@ -62,10 +62,12 @@ def helper_leaderboard(score_type_str, username):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
+
 def leaderboard_placement_best(request):
     return helper_leaderboard('best_wpm', request.user.username if request.user.is_authenticated else None)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
+
 def leaderboard_placement_avg(request):
     return helper_leaderboard('avg_wpm', request.user.username if request.user.is_authenticated else None)
