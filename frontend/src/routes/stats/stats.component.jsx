@@ -17,7 +17,6 @@ const Stats = () => {
             <h1>My Stats</h1>
             <h3>Best WPM: {user.best_wpm.toFixed(2)} wpm</h3>
             <h3>Avg WPM: {user.avg_wpm.toFixed(2)} wpm</h3>
-            <h3>My Placement: {}</h3>
           </BubbleDiv>
         )}
       </div>

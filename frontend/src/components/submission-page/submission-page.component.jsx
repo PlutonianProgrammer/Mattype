@@ -19,51 +19,59 @@ const SubmissionPage = () => {
     setMistakesCount,
     setTimeElapsed,
   } = useContext(PlayContext);
-  const { accessToken, refreshAccessToken } = useContext(AuthContext);
+  const { helperFetch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const submitScore = async (token, wpm) => {
-    const response = await fetch(
-      "http://localhost:8000/userauth/submit-score/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ wpm }),
-      }
-    );
-    return response;
-  };
+  // const submitScore = async (wpm) => {
+  // const response = await fetch(
+  //   "http://localhost:8000/userauth/submit-score/",
+  //   {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify({ wpm }),
+  //   }
+  // );
+  //   const response = await helperFetch(
+  //     "http://localhost:8000/userauth/submit-score",
+  //     wpm
+  //   );
+  //   return response;
+  // };
 
   const handleSubmit = async () => {
-    console.log("OLD:", accessToken);
-    let response = await submitScore(
-      accessToken,
+    // console.log("OLD:", accessToken);
+    // let response = await submitScore(
+    //   accessToken,
+    //   wordsTyped / (timeElapsed / 1000 / 60)
+    // );
+    // if (!response.ok) {
+    //   console.log("ISSUE OCCURRED IN SUBMITTING SCORE");
+    //   const newToken = refreshAccessToken();
+    //   console.log("NEW:", newToken);
+    //   console.log("TRYING AGAIN");
+    //   response = await submitScore(
+    //     newToken,
+    //     wordsTyped / (timeElapsed / 1000 / 60)
+    //   );
+    //   if (!response.ok) {
+    //     console.log("FAILED");
+    //     console.log(response);
+    //     return;
+    //   }
+    const response = await helperFetch(
+      "http://localhost:8000/userauth/submit-score",
       wordsTyped / (timeElapsed / 1000 / 60)
     );
-    if (!response.ok) {
-      console.log("ISSUE OCCURRED IN SUBMITTING SCORE");
-      const newToken = refreshAccessToken();
-      console.log("NEW:", newToken);
-      console.log("TRYING AGAIN");
-      response = await submitScore(
-        newToken,
-        wordsTyped / (timeElapsed / 1000 / 60)
-      );
-      if (!response.ok) {
-        console.log("FAILED");
-        console.log(response);
-        return;
-      }
-    }
-    setPhase(1);
-    setWordsTyped(0);
-    setMistakesCount(0);
-    setTimeElapsed(0);
-    navigate("/");
   };
+  setPhase(1);
+  setWordsTyped(0);
+  setMistakesCount(0);
+  setTimeElapsed(0);
+  navigate("/");
+  // };
 
   return (
     <div className='submission-page-container'>
