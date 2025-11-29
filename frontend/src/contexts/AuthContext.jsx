@@ -17,16 +17,16 @@ export const AuthProvider = ({ children }) => {
   // when accessToken/refreshToken variables affected, change them on browser
   useEffect(() => {
     localStorage.setItem("access", accessToken);
-    console.log("USESTATE ACCESS ON", accessToken);
+    //console.log("USESTATE ACCESS ON", accessToken);
     fetchUser(accessToken);
   }, [accessToken]);
   useEffect(() => {
     localStorage.setItem("refresh", refreshToken);
-    console.log("USESTATE REFRESH ON", refreshToken);
+    //console.log("USESTATE REFRESH ON", refreshToken);
   }, [refreshToken]);
 
   const login = async (username, password) => {
-    console.log("LOG IN EXECUTED");
+    //console.log("LOG IN EXECUTED");
     const response = await fetch(AUTHENTICATION_URL_HEAD + "jwt/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signUp = async (username, password, re_password, email) => {
-    console.log("SIGN-UP EXECUTED");
+    //console.log("SIGN-UP EXECUTED");
     const response = await fetch(AUTHENTICATION_URL_HEAD + "users/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     // do not call server if refresh token DNE
     if (refreshToken == null) return;
 
-    console.log("REFRESHING ACCESS TOKEN");
+    //console.log("REFRESHING ACCESS TOKEN");
     // get response from backend
     const response = await fetch(AUTHENTICATION_URL_HEAD + "jwt/refresh/", {
       method: "POST",
@@ -85,7 +85,10 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async (myAccessToken) => {
     // if both tokens DNE, do not try to fetch
-    if (accessToken == null && refreshToken == null) return;
+    console.log("SAUTTJSPLKDHFLKJSGHDFLKHVSLJKDHCVB");
+    console.log(accessToken, typeof accessToken);
+    console.log(refreshToken, typeof refreshToken);
+    if (accessToken == "null" && refreshToken == "null") return;
 
     // // tries to get userprofile data
     // const helperFetch = async (token) => {
@@ -116,7 +119,7 @@ export const AuthProvider = ({ children }) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("USER DATA:", data);
+      //console.log("USER DATA:", data);
       setUser(data);
     }
     // neither attempt worked- logout()
@@ -125,16 +128,26 @@ export const AuthProvider = ({ children }) => {
 
   const helperFetch = async (url, method, payload) => {
     const createFetchObj = (token) => {
-      const fetchObj = {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      if (payload != null) {
+      const fetchObj = {};
+
+      // method/payload
+      if (method == "GET") {
+        fetchObj.method = "GET";
+      } else if (method == "POST") {
+        fetchObj.method = "POST";
+        fetchObj.headers = { "Content-Type": "application/json" };
         fetchObj.body = JSON.stringify(payload);
+      } else {
+        console.log("createFetchObj() NOT PROGRAMMED FOR THIS");
       }
+
+      // auth
+      if (token != "null") {
+        console.log("TOKEN:", token, typeof token);
+        fetchObj.headers = fetchObj.headers || {};
+        fetchObj.headers.Authorization = `Bearer ${token}`;
+      }
+      console.log("OBJECT:", fetchObj);
       return fetchObj;
     };
     let response = null;
