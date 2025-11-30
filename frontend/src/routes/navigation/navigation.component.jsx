@@ -18,9 +18,11 @@ const Navigation = () => {
         <BubbleDiv>
           <Link to='/play'>Play</Link>
         </BubbleDiv>
-        <BubbleDiv>
-          <Link to='/stats'>Stats</Link>
-        </BubbleDiv>
+        {user && (
+          <BubbleDiv>
+            <Link to='/stats'>Stats</Link>
+          </BubbleDiv>
+        )}
         <BubbleDiv>
           <Link to='/leaderboard'>Leaderboard</Link>
         </BubbleDiv>

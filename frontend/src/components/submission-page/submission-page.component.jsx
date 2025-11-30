@@ -62,15 +62,16 @@ const SubmissionPage = () => {
     //     return;
     //   }
     const response = await helperFetch(
-      "http://localhost:8000/userauth/submit-score",
-      wordsTyped / (timeElapsed / 1000 / 60)
+      "http://localhost:8000/userauth/submit-score/",
+      "POST",
+      { wpm: wordsTyped / (timeElapsed / 1000 / 60) }
     );
+    setPhase(1);
+    setWordsTyped(0);
+    setMistakesCount(0);
+    setTimeElapsed(0);
+    navigate("/");
   };
-  setPhase(1);
-  setWordsTyped(0);
-  setMistakesCount(0);
-  setTimeElapsed(0);
-  navigate("/");
   // };
 
   return (
