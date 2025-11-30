@@ -1,8 +1,8 @@
 import "./podium-piece.styles.scss";
 const PLACEMENT_TO_HEIGHT = {
-  1: 50,
-  2: 37,
-  3: 25,
+  1: 75,
+  2: 56,
+  3: 38,
 };
 const PLACEMENT_TO_MEDAL_COLOR = {
   1: "gold",

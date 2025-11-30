@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 
 export const PlayContext = createContext();
@@ -18,6 +18,10 @@ export const PlayProvider = ({ children }) => {
     setCountDownVar(0);
     setPhase(3);
   };
+
+  useEffect(() => {
+    console.log("PHASE:", phase);
+  }, [phase]);
 
   const [wordsTyped, setWordsTyped] = useState(0);
   const [mistakesCount, setMistakesCount] = useState(0);
