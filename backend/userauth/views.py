@@ -7,6 +7,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import io
+from django.http import HttpResponse
+
 from .models import CustomUser
 
 # Create your views here.
@@ -62,12 +68,26 @@ def helper_leaderboard(score_type_str, username):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-
 def leaderboard_placement_best(request):
     return helper_leaderboard('best_wpm', request.user.username if request.user.is_authenticated else None)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-
 def leaderboard_placement_avg(request):
     return helper_leaderboard('avg_wpm', request.user.username if request.user.is_authenticated else None)
+
+class get_user_graph(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        date_and_wpm_tuple = request.user.getDataOfGraph()
+        
+        plt.scatter(date_and_wpm_tuple[0], date_and_wpm_tuple[1])
+
+        buffer = io.BytesIO()
+        plt.savefig(buffer, format='png')
+        plt.close()
+
+        buffer.seek(0)
+
+        return HttpResponse(buffer.getvalue(), content_type='image/png')

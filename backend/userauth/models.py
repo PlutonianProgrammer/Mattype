@@ -31,3 +31,13 @@ class CustomUser(AbstractUser):
             self.avg_wpm = sum_of_wpm / count
 
         self.save()
+    
+    def getDataOfGraph(self):
+        all_days = []
+        all_wpms = []
+        with open(self.wpm_log.path) as log:
+            reader = csv.DictReader(log)
+            for row in reader:
+                all_days.append(row['day'])
+                all_wpms.append(float(row['wpm']))
+        return (all_days, all_wpms)

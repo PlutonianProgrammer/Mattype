@@ -7,7 +7,22 @@ import BubbleDiv from "../../components/bubble-div/bubble-div.component";
 import "./stats.styles.scss";
 
 const Stats = () => {
-  const { user } = useContext(AuthContext);
+  const { user, helperFetch } = useContext(AuthContext);
+  const [imageUrl, setImageUrl] = useState(null);
+  useEffect(() => {
+    const getGraph = async () => {
+      const response = await helperFetch(
+        "http://localhost:8000/userauth/get-user-graph/",
+        "GET",
+        null
+      );
+      console.log("RESPONSE:", response);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setImageUrl(url);
+    };
+    getGraph();
+  }, []);
   if (user) {
     return (
       <div className='stats-page-container'>
@@ -21,12 +36,10 @@ const Stats = () => {
           )}
         </div>
         <div className='graph-container'>
-          <div className='graph-placeholder' />
+          {imageUrl && <img id='graph' src={imageUrl} />}
         </div>
       </div>
     );
-  } else {
-    return <h1>You Must Be Signed In To Use This Page</h1>;
   }
 };
 
