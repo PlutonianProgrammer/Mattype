@@ -17,12 +17,16 @@ const Auth = () => {
       navigate("/");
     }
   }, [user]);
-  return (
-    <div className='auth-container'>
-      <SignIn />
-      <SignUp />
-    </div>
-  );
+  if (!user) {
+    return (
+      <div className='auth-container'>
+        <SignIn />
+        <SignUp />
+      </div>
+    );
+  } else {
+    return <h1>You Must Log Out To Utilize This Page</h1>;
+  }
 };
 
 export default Auth;
