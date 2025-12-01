@@ -63,6 +63,14 @@ const Leaderboard = () => {
     else setScoreToFetch("best");
   };
 
+  const placementToSuffix = () => {
+    const last_digit = placement % 10;
+    if (last_digit == 1) return "st";
+    else if (last_digit == 2) return "nd";
+    else if (last_digit == 3) return "rd";
+    else return "th";
+  };
+
   return (
     <div className='leaderboard-container'>
       <div className='leaderboard-left-side'>
@@ -73,9 +81,12 @@ const Leaderboard = () => {
         {user && (
           <BubbleDiv className='leaderboard-left-side'>
             <div>
-              <p>My Best WPM: {user.best_wpm}</p>
-              <p>My Average WPM: {user.avg_wpm}</p>
-              <p>Placement: {placement}</p>
+              <p>My Best WPM: {user.best_wpm.toFixed(2)}</p>
+              <p>My Average WPM: {user.avg_wpm.toFixed(2)}</p>
+              <p>
+                Placement: {placement}
+                {placementToSuffix()}
+              </p>
             </div>
           </BubbleDiv>
         )}
