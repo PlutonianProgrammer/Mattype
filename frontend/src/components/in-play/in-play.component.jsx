@@ -82,7 +82,13 @@ const InPlay = () => {
     if (charIndexRef.current == paragraph.length) setPhase(4);
   };
 
-  const indexRef = useRef(-1);
+  const getTotalCharAmountFromPreviousLines = (lines, index) => {
+    let totalChars = 0;
+    for (let i = 0; i < index; i++) {
+      totalChars += lines[i].length;
+    }
+    return totalChars;
+  };
 
   return (
     <div className='in-play-page'>
@@ -112,12 +118,13 @@ const InPlay = () => {
         {paragraphInLines.map((line, i) => (
           <div className='line' key={i}>
             {line.split("").map((char, idx) => {
-              console.log("CHAR:", char);
-              indexRef.current++;
               return (
                 <div
                   className='untyped'
-                  id={`LETTER-${indexRef.current}`}
+                  id={`LETTER-${
+                    getTotalCharAmountFromPreviousLines(paragraphInLines, i) +
+                    idx
+                  }`}
                   key={idx}
                 >
                   {char}
