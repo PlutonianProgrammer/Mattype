@@ -29,6 +29,10 @@
       width: max-content;
       white-space: pre;
     }
+    .line {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }
 

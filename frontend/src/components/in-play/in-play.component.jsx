@@ -13,6 +13,7 @@ const InPlay = () => {
     timeElapsed,
     setTimeElapsed,
     setPhase,
+    parToLines,
   } = useContext(PlayContext);
   const navigate = useNavigate();
 
@@ -49,7 +50,11 @@ const InPlay = () => {
   }, []);
 
   const paragraph =
-    "The Hulk is a superhero appearing in American comic books published by Marvel Comics. Created by writer Stan Lee";
+    "Superman is a superhero created by writer Jerry Siegel and artist Joe Shuster, first appearing in issue #1 of Action Comics, published in the United States on April 18, 1938.[1] Superman has been regularly published in American comic books since then, and has been adapted to other media including radio serials, novels, films, television shows, theater, and video games. Superman is the archetypal superhero: he wears an outlandish costume, uses a codename, and fights evil and averts disasters with the aid of extraordinary abilities. Although there are earlier characters who arguably fit this definition, it was Superman who popularized the superhero genre and established its conventions. He was the best-selling superhero in American comic books up until the 1980s;[2] it is also the best-selling comic book series in the world with 600 million copies sold.[3]";
+
+  const paragraphInLines = parToLines(
+    "Superman is a superhero created by writer Jerry Siegel and artist Joe Shuster, first appearing in issue #1 of Action Comics, published in the United States on April 18, 1938.[1] Superman has been regularly published in American comic books since then, and has been adapted to other media including radio serials, novels, films, television shows, theater, and video games. Superman is the archetypal superhero: he wears an outlandish costume, uses a codename, and fights evil and averts disasters with the aid of extraordinary abilities. Although there are earlier characters who arguably fit this definition, it was Superman who popularized the superhero genre and established its conventions. He was the best-selling superhero in American comic books up until the 1980s;[2] it is also the best-selling comic book series in the world with 600 million copies sold.[3]"
+  );
 
   const charIndexRef = useRef(0);
   const madeMistakeInCurrentWord = useRef(false);
@@ -77,6 +82,8 @@ const InPlay = () => {
     if (charIndexRef.current == paragraph.length) setPhase(4);
   };
 
+  const indexRef = useRef(-1);
+
   return (
     <div className='in-play-page'>
       <div className='heads-up-display'>
@@ -96,9 +103,27 @@ const InPlay = () => {
         onKeyDown={handleKeyPress}
         tabIndex={0}
       >
-        {paragraph.split("").map((char, idx) => (
+        {/* {paragraph.split("").map((char, idx) => (
           <div className='untyped' id={`LETTER-${idx}`} key={idx}>
             {char}
+          </div>
+        ))} */}
+
+        {paragraphInLines.map((line, i) => (
+          <div className='line' key={i}>
+            {line.split("").map((char, idx) => {
+              console.log("CHAR:", char);
+              indexRef.current++;
+              return (
+                <div
+                  className='untyped'
+                  id={`LETTER-${indexRef.current}`}
+                  key={idx}
+                >
+                  {char}
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>
