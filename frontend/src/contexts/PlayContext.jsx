@@ -19,6 +19,40 @@ export const PlayProvider = ({ children }) => {
     setPhase(3);
   };
 
+  // PROCESS PARAGRAPH INTO LINES AND WORDS
+  const CHARS_PER_LINE = 125;
+  const parToLines = (paragraph) => {
+    const words = paragraph.split(" ");
+    const result = [];
+    let curLine = [];
+    let charsInCurLine = 0;
+
+    // get rows of words as lines
+    for (const word of words) {
+      if (charsInCurLine + 1 + word.length <= CHARS_PER_LINE) {
+        curLine.push(word);
+        charsInCurLine += 1 + word.length;
+      } else {
+        result.push(curLine);
+        curLine = [word];
+        charsInCurLine = word.length + 1;
+      }
+    }
+    if (charsInCurLine != 0) {
+      result.push(curLine);
+    }
+
+    // convert into array of strings
+    for (let i = 0; i < result.length; i++) {
+      result[i] = result[i].join(" ");
+      if (i != result.length - 1) {
+        result[i] += " ";
+      }
+    }
+
+    return result;
+  };
+
   useEffect(() => {
     console.log("PHASE:", phase);
   }, [phase]);
@@ -44,6 +78,8 @@ export const PlayProvider = ({ children }) => {
 
         timeElapsed,
         setTimeElapsed,
+
+        parToLines,
       }}
     >
       {children}
