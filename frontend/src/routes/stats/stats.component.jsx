@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -23,6 +24,7 @@ const Stats = () => {
     };
     getGraph();
   }, []);
+
   if (user) {
     return (
       <div className='stats-page-container'>
@@ -40,7 +42,7 @@ const Stats = () => {
         </div>
       </div>
     );
-  }
+  } else return <h1>YOU MUST BE LOGGED IN TO USE THIS PAGE</h1>;
 };
 
 export default Stats;

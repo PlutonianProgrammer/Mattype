@@ -61,6 +61,12 @@ export const PlayProvider = ({ children }) => {
   const [mistakesCount, setMistakesCount] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
 
+  const [paragraph, setParagraph] = useState("");
+
+  useEffect(() => {
+    if (phase == 1) setParagraph("");
+  }, [phase]);
+
   return (
     <PlayContext.Provider
       value={{
@@ -80,6 +86,8 @@ export const PlayProvider = ({ children }) => {
         setTimeElapsed,
 
         parToLines,
+        paragraph,
+        setParagraph,
       }}
     >
       {children}
