@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   }, [refreshToken]);
 
   const login = async (username, password) => {
-    //console.log("LOG IN EXECUTED");
+    console.log("LOG IN EXECUTED");
     const response = await fetch(AUTHENTICATION_URL_HEAD + "jwt/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

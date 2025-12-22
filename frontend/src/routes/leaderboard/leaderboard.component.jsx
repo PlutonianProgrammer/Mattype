@@ -78,26 +78,25 @@ const Leaderboard = () => {
           Leaderboard-{" "}
           {scoreToFetch.charAt(0).toUpperCase() + scoreToFetch.slice(1)} WPM
         </h1>
+
         {user && (
-          <BubbleDiv className='leaderboard-left-side'>
-            <div>
-              <p>My Best WPM: {user.best_wpm.toFixed(2)}</p>
-              <p>My Average WPM: {user.avg_wpm.toFixed(2)}</p>
-              <p>
-                Placement: {placement}
-                {placementToSuffix()}
-              </p>
-            </div>
-          </BubbleDiv>
+          <div className='leaderboard-user-stats'>
+            <h3>My Best WPM: {user.best_wpm.toFixed(2)}</h3>
+            <h3>My Average WPM: {user.avg_wpm.toFixed(2)}</h3>
+            <h3>
+              Placement: {placement}
+              {placementToSuffix()}
+            </h3>
+          </div>
         )}
-        <BubbleDiv id='change-score-type-container'>
-          <button onClick={switchScoreToFetch}>
-            Change Score to{" "}
-            {scoreToFetch == "best" ? "Average WPM" : "Best WPM"}
-          </button>
-        </BubbleDiv>
       </div>
       <div className='leaderboard-right-side'>
+        <BubbleDiv
+          className='switch-score-type-button'
+          onClick={switchScoreToFetch}
+        >
+          Change to {scoreToFetch == "best" ? "Average WPM" : "Best WPM"}
+        </BubbleDiv>
         <Podium
           firstPlace={firstPlace}
           secondPlace={secondPlace}

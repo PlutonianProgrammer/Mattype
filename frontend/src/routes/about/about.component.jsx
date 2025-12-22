@@ -6,7 +6,7 @@ const About = () => {
       <h2>My Email:</h2>
       <ul>
         <li>
-          <a>plutonianprogrammer@gmail.com</a>
+          <span>plutonianprogrammer@gmail.com</span>
         </li>
       </ul>
       <h2>My Github:</h2>
