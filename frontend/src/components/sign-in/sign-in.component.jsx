@@ -29,12 +29,8 @@ const SignIn = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder='password'
       />
-      <BubbleDiv>
-        <button onClick={handleSubmit}>Sign In</button>
-      </BubbleDiv>
-      <BubbleDiv id='google-button'>
-        <button>Sign In With Google</button>
-      </BubbleDiv>
+      <BubbleDiv onClick={handleSubmit}>Sign In</BubbleDiv>
+      <BubbleDiv id='google-button'>Sign In With Google</BubbleDiv>
     </div>
   );
 };

@@ -8,8 +8,13 @@
     flex-direction: column;
     align-items: flex-start;
 
+    h2 {
+      color: rgb(66, 242, 255);
+    }
+
     .leaderboard-user-stats {
-      h3 {
+      background-color: grey;
+      h4 {
         color: rgb(66, 242, 255);
       }
     }
@@ -19,12 +24,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    .switch-score-type-button {
-      margin-top: auto;
-      cursor: pointer;
-    }
-    p {
-      color: rgb(66, 242, 255);
+
+    #above-podium {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      * {
+        margin: 20px;
+      }
+      .bubble-div {
+        background-color: rgb(82, 242, 82);
+      }
     }
   }
 }

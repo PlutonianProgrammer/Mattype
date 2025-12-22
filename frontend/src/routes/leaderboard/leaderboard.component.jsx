@@ -74,36 +74,43 @@ const Leaderboard = () => {
   return (
     <div className='leaderboard-container'>
       <div className='leaderboard-left-side'>
-        <h1>
-          Leaderboard-{" "}
-          {scoreToFetch.charAt(0).toUpperCase() + scoreToFetch.slice(1)} WPM
-        </h1>
+        <h1>Leaderboard</h1>
+
+        {!user && <h2>Login to See Placement</h2>}
 
         {user && (
-          <div className='leaderboard-user-stats'>
-            <h3>My Best WPM: {user.best_wpm.toFixed(2)}</h3>
-            <h3>My Average WPM: {user.avg_wpm.toFixed(2)}</h3>
-            <h3>
-              Placement: {placement}
-              {placementToSuffix()}
-            </h3>
-          </div>
+          <BubbleDiv className='leaderboard-user-stats'>
+            <h2>My Stats:</h2>
+            <h4>
+              My Best WPM--
+              {user.best_wpm.toFixed(2)}wpm
+            </h4>
+            <h4>My Average WPM-- {user.avg_wpm.toFixed(2)}wpm</h4>
+            <h4>
+              My Placement-- {placement}
+              {placementToSuffix()} of {participants} Participants
+            </h4>
+          </BubbleDiv>
         )}
       </div>
       <div className='leaderboard-right-side'>
-        <BubbleDiv
-          className='switch-score-type-button'
-          onClick={switchScoreToFetch}
-        >
-          Change to {scoreToFetch == "best" ? "Average WPM" : "Best WPM"}
-        </BubbleDiv>
+        <div id='above-podium'>
+          <h2>
+            Displaying{" "}
+            {scoreToFetch.charAt(0).toUpperCase() + scoreToFetch.slice(1)} WPM
+          </h2>
+          <BubbleDiv
+            className='switch-score-type-button'
+            onClick={switchScoreToFetch}
+          >
+            Change to {scoreToFetch == "best" ? "Avg WPM" : "Best WPM"}
+          </BubbleDiv>
+        </div>
         <Podium
           firstPlace={firstPlace}
           secondPlace={secondPlace}
           thirdPlace={thirdPlace}
         />
-
-        <p>Participants: {participants}</p>
       </div>
     </div>
   );
