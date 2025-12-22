@@ -10,14 +10,17 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
-  const [email, setEmail] = useState("");
+
   const { signUp } = useContext(AuthContext);
   const handleSubmit = () => {
+    if (password != rePassword) {
+      alert("Passwords do not match");
+      return;
+    }
     signUp(username, password);
     setUsername("");
     setPassword("");
     setRePassword("");
-    setEmail("");
   };
   return (
     <div className='sign-up-container'>
@@ -27,12 +30,7 @@ const SignUp = () => {
         onChange={(e) => setUsername(e.target.value)}
         placeholder='username'
       />
-      <input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        type='email'
-        placeholder='email (optional)'
-      />
+
       <input
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -45,9 +43,7 @@ const SignUp = () => {
         type='password'
         placeholder='re-password'
       />
-      <BubbleDiv>
-        <button onClick={handleSubmit}>Sign Up</button>
-      </BubbleDiv>
+      <BubbleDiv onClick={handleSubmit}>Sign Up</BubbleDiv>
     </div>
   );
 };

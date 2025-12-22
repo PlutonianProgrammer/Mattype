@@ -176,6 +176,8 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
+  const guestLogin = () => !user && login("UniversalGuest", "GuestPassword123");
+
   return (
     <AuthContext.Provider
       value={{
@@ -186,6 +188,7 @@ export const AuthProvider = ({ children }) => {
         logout,
 
         helperFetch,
+        guestLogin,
       }}
     >
       {children}

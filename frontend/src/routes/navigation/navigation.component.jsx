@@ -12,7 +12,9 @@ const Navigation = () => {
   return (
     <>
       <div className='nav-bar'>
-        <Link to='/'>HOME</Link>
+        <Link id='logo' to='/'>
+          MT
+        </Link>
         <Link to='/play'>Play</Link>
         {user && <Link to='/stats'>Stats</Link>}
         <Link to='/leaderboard'>Leaderboard</Link>
@@ -20,7 +22,7 @@ const Navigation = () => {
         {!user ? (
           <Link to='/auth'>Sign-In</Link>
         ) : (
-          <span onClick={logout}>Logout - {user.username}</span>
+          <BubbleDiv onClick={logout}>Logout - {user.username}</BubbleDiv>
         )}
       </div>
       <Outlet />
