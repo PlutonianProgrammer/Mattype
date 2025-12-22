@@ -12,31 +12,15 @@ const Navigation = () => {
   return (
     <>
       <div className='nav-bar'>
-        <BubbleDiv>
-          <Link to='/'>HOME</Link>
-        </BubbleDiv>
-        <BubbleDiv>
-          <Link to='/play'>Play</Link>
-        </BubbleDiv>
-        {user && (
-          <BubbleDiv>
-            <Link to='/stats'>Stats</Link>
-          </BubbleDiv>
-        )}
-        <BubbleDiv>
-          <Link to='/leaderboard'>Leaderboard</Link>
-        </BubbleDiv>
-        <BubbleDiv>
-          <Link to='/about'>About</Link>
-        </BubbleDiv>
+        <Link to='/'>HOME</Link>
+        <Link to='/play'>Play</Link>
+        {user && <Link to='/stats'>Stats</Link>}
+        <Link to='/leaderboard'>Leaderboard</Link>
+        <Link to='/about'>About</Link>
         {!user ? (
-          <BubbleDiv>
-            <Link to='/auth'>Sign-In</Link>
-          </BubbleDiv>
+          <Link to='/auth'>Sign-In</Link>
         ) : (
-          <BubbleDiv>
-            <button onClick={logout}>Logout- {user.username}</button>
-          </BubbleDiv>
+          <span onClick={logout}>Logout - {user.username}</span>
         )}
       </div>
       <Outlet />

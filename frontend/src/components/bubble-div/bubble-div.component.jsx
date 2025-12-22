@@ -1,7 +1,7 @@
 import "./bubble-div.styles.scss";
-const BubbleDiv = ({ id, children }) => {
+const BubbleDiv = ({ id, className, onClick, children }) => {
   return (
-    <div id={id} className='bubble-div'>
+    <div id={id} onClick={onClick} className={`bubble-div ${className}`}>
       {children}
     </div>
   );

@@ -12,14 +12,12 @@ const Play = () => {
   if (phase == 1) {
     return (
       <div className='play-page'>
-        <BubbleDiv>
-          <button
-            onClick={() => {
-              setPhase(2);
-            }}
-          >
-            START
-          </button>
+        <BubbleDiv
+          onClick={() => {
+            setPhase(2);
+          }}
+        >
+          Press Me To Start Typing Test
         </BubbleDiv>
       </div>
     );

@@ -5,22 +5,11 @@
   align-items: center;
   padding: 10px;
   height: 100vh;
-  * {
-    margin: 50px;
-  }
-
-  .main-image {
-    background-color: blue;
-    height: 500px;
-    width: 500px;
-  }
-  .main-link {
-    background-color: rgb(66, 255, 66);
-    border: 2px solid black;
-    border-radius: 7px;
-    * {
-      color: black;
-      text-decoration: none;
-    }
+  h1 {
+    color: rgb(66, 242, 255);
+    font-size: 200px;
+    font-family: "Birthstone", cursive;
+    font-weight: 400;
+    font-style: normal;
   }
 }

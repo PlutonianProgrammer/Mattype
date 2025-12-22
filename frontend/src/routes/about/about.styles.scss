@@ -2,10 +2,14 @@
   background-color: gray;
   height: 100vh;
   padding: 10px;
-}
-ul {
-  list-style: none;
-}
-a {
-  color: rgb(66, 255, 66);
+  ul {
+    list-style: none;
+    li {
+      * {
+        text-decoration: none;
+        color: rgb(66, 242, 255);
+        font-size: large;
+      }
+    }
+  }
 }
