@@ -23,8 +23,11 @@ class update_user_score_records(APIView):
         wpm = request.data.get('wpm')
         if wpm is None:
             return Response({'error': 'No WPM specified'}, status=status.HTTP_400_BAD_REQUEST)
+        mistakes = request.data.get('mistakes')
+        if mistakes is None:
+            return Response({'error': 'No mistake profile specified'}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
-        user.update_score_record(float(wpm))
+        user.update_score_record(float(wpm), mistakes)
         return Response(status=204)
 
 def helper_leaderboard(score_type_str, username):
@@ -82,12 +85,30 @@ class get_user_graph(APIView):
     def get(self, request):
         date_and_wpm_tuple = request.user.getDataOfGraph()
         
-        plt.scatter(date_and_wpm_tuple[0], date_and_wpm_tuple[1])
+        # Create and style graph
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.scatter(date_and_wpm_tuple[0], date_and_wpm_tuple[1],
+                   color="#42f2ff")
+
+        fig.patch.set_facecolor('#808080')
+        #ax.set_facecolor('#808080')
+
+        ax.set_xlabel("Date", color="#42f2ff")
+        ax.set_ylabel("WPM", color="#42f2ff")
 
         buffer = io.BytesIO()
-        plt.savefig(buffer, format='png')
-        plt.close()
+        fig.savefig(buffer, format='png')
+        plt.close(fig)
 
         buffer.seek(0)
 
         return HttpResponse(buffer.getvalue(), content_type='image/png')
+    
+class get_user_heatmaps(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        lifetime_mistakes = request.user.lifetime_total_mistakes
+        ten_last = request.user.lifetime_total_mistakes
+        return Response({'lifetime_mistakes': lifetime_mistakes,
+                             'ten_last': ten_last})
