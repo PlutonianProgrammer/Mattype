@@ -6,9 +6,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     background-color: gray;
-    border: 5px solid rgb(81, 81, 81);
-    border-radius: 5px;
-    color: rgb(66, 255, 66);
+
+    color: rgb(66, 242, 255);
+    font-size: 25px;
     .of-heads-up {
       display: flex;
       justify-content: center;
@@ -17,13 +17,10 @@
   }
   .paragraph-holder {
     font-family: "Courier New", Courier, monospace;
-    background-color: black;
     color: white;
-    display: -ms-inline-grid;
-    grid-template-columns: repeat(30, 1fr);
-    border: 10px solid rgb(81, 81, 81);
-    border-radius: 5px;
+    font-size: 25px;
     margin: 40px;
+
     div {
       display: inline-block;
       width: max-content;
@@ -32,21 +29,23 @@
     .line {
       display: flex;
       flex-direction: row;
+      .untyped {
+        background-color: grey;
+        color: white;
+      }
+
+      .correct {
+        background-color: rgb(66, 255, 66);
+        color: black;
+      }
+
+      .wrong {
+        background-color: red;
+        color: black;
+      }
     }
   }
-}
-
-.untyped {
-  background-color: black;
-  color: white;
-}
-
-.correct {
-  background-color: rgb(66, 255, 66);
-  color: black;
-}
-
-.wrong {
-  background-color: red;
-  color: black;
+  .paragraph-holder:focus {
+    outline: none;
+  }
 }

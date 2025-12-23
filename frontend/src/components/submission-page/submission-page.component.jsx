@@ -76,16 +76,26 @@ const SubmissionPage = () => {
 
   return (
     <div className='submission-page-container'>
-      <BubbleDiv>
-        <h1>CONGRADULATIONS</h1>
-        <ul>
-          <li>Words Typed: {wordsTyped}</li>
-          <li>Mistakes Made: {mistakesCount}</li>
-          <li>Time Elapsed: {timeElapsed / 1000}s</li>
-          <li>Words Per Minute: {wordsTyped / (timeElapsed / 1000 / 60)}</li>
-        </ul>
-        <button onClick={handleSubmit}>SUBMIT</button>
-      </BubbleDiv>
+      <h1>CONGRADULATIONS</h1>
+      <div className='body-container'>
+        <BubbleDiv className='stats-container'>
+          <ul>
+            <li>Words Typed: {wordsTyped}</li>
+            <li>Mistakes Made: {mistakesCount}</li>
+            <li>Time Elapsed: {timeElapsed / 1000}s</li>
+            <li>Words Per Minute: {wordsTyped / (timeElapsed / 1000 / 60)}</li>
+          </ul>
+        </BubbleDiv>
+
+        <div className='action-buttons'>
+          <BubbleDiv className='disregard' onClick={() => navigate("/")}>
+            DISREGARD
+          </BubbleDiv>
+          <BubbleDiv className='submit' onClick={handleSubmit}>
+            SUBMIT
+          </BubbleDiv>
+        </div>
+      </div>
     </div>
   );
 };
