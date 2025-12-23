@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 import "./heatmap.styles.scss";
@@ -8,18 +8,29 @@ const HeatMap = () => {
   const { helperFetch } = useContext(AuthContext);
   const [tenLast, setTenLast] = useState(null);
   const [lifetime, setLifetime] = useState(null);
+  const displayingLifetime = useRef(false);
+
+  const colorKeyboard = (tenLast, lifetime) => {
+    const data = displayingLifetime.current ? lifetime : tenLast;
+    for (const character of Object.keys(data)) {
+      const key = document.getElementById(character);
+      key.className = key.className + " green";
+    }
+  };
 
   useEffect(() => {
-    const getHeatmaps = async () => {
+    const getAndSetHeatmaps = async () => {
       const response = await helperFetch(
         "http://localhost:8000/userauth/get-user-heatmaps/",
         "GET",
         null
       );
       const data = await response.json();
-      console.log("Heatmap:", data);
+      setTenLast(data.ten_last);
+      setLifetime(data.lifetime_mistakes);
+      colorKeyboard(data.ten_last, data.lifetime_mistakes);
     };
-    getHeatmaps();
+    getAndSetHeatmaps();
   }, []);
 
   return (
@@ -31,7 +42,7 @@ const HeatMap = () => {
       </div>
       <div className='keyboard-container'>
         <div className='row 1'>
-          <div id='`' className='key double'>
+          <div id='~' className='key double'>
             <p>`</p>
             <p>~</p>
           </div>
@@ -123,7 +134,7 @@ const HeatMap = () => {
             <p>]</p>
             <p>{`${"}"}`}</p>
           </div>
-          <div id='\' className='key double'>
+          <div id='|' className='key double'>
             <p>\</p>
             <p>|</p>
           </div>
