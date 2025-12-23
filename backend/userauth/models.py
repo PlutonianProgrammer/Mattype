@@ -10,7 +10,12 @@ class CustomUser(AbstractUser):
     avg_wpm = models.FloatField(default=0)
     wpm_log = models.FileField(upload_to='uploads/')
 
-    def update_score_record(self, new_wpm):
+    last_ten_tests_mistakes = models.JSONField(default=list)
+    tracking_index = models.IntegerField(default=0)
+
+    lifetime_total_mistakes = models.JSONField(default=dict)
+
+    def update_score_record(self, new_wpm, mistakes):
         # Save best_wpm
         if self.best_wpm < new_wpm:
             self.best_wpm = new_wpm
@@ -30,7 +35,23 @@ class CustomUser(AbstractUser):
                 count += 1
             self.avg_wpm = sum_of_wpm / count
 
+        self.manageMistakeProfiles(mistakes)
         self.save()
+    
+    def manageMistakeProfiles(self, mistakes):
+
+        if (self.tracking_index == 0):
+            self.lifetime_total_mistakes = mistakes
+        else:
+            for key in self.lifetime_total_mistakes:
+                self.lifetime_total_mistakes[key] += mistakes[key]
+
+        if (self.tracking_index < 10):
+            self.last_ten_tests_mistakes.append(mistakes) 
+        else:
+            self.last_ten_tests_mistakes[self.tracking_index % 9] = mistakes
+
+        self.tracking_index += 1
     
     def getDataOfGraph(self):
         all_days = []
