@@ -7,7 +7,7 @@ import BubbleDiv from "../bubble-div/bubble-div.component";
 import "./sign-in.styles.scss";
 
 const SignIn = () => {
-  const { login } = useContext(AuthContext);
+  const { login, guestLogin } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = () => {
@@ -30,7 +30,9 @@ const SignIn = () => {
         placeholder='password'
       />
       <BubbleDiv onClick={handleSubmit}>Sign In</BubbleDiv>
-      <BubbleDiv className='guest-button'>Sign In As Guest</BubbleDiv>
+      <BubbleDiv className='guest-button' onClick={guestLogin}>
+        Sign In As Guest
+      </BubbleDiv>
       <BubbleDiv className='google-button'>Sign In With Google</BubbleDiv>
     </div>
   );

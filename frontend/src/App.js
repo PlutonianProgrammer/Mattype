@@ -5,6 +5,7 @@ import Play from "./routes/play/play.component";
 import Auth from "./routes/auth/auth.component";
 import About from "./routes/about/about.component";
 import Stats from "./routes/stats/stats.component";
+import HeatMap from "./routes/heatmap/heatmap.component";
 import Leaderboard from "./routes/leaderboard/leaderboard.component";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='auth' element={<Auth />} />
         <Route path='about' element={<About />} />
         <Route path='stats' element={<Stats />} />
+        <Route path='heatmap' element={<HeatMap />} />
         <Route path='leaderboard' element={<Leaderboard />} />
       </Route>
     </Routes>

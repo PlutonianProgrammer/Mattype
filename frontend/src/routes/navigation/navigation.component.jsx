@@ -16,7 +16,12 @@ const Navigation = () => {
           MT
         </Link>
         <Link to='/play'>Play</Link>
-        {user && <Link to='/stats'>Stats</Link>}
+        {user && (
+          <>
+            <Link to='/stats'>Stats</Link>
+            <Link to='/heatmap'>Heatmap</Link>
+          </>
+        )}
         <Link to='/leaderboard'>Leaderboard</Link>
         <Link to='/about'>About</Link>
         {!user ? (
