@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 import "./heatmap.styles.scss";
@@ -6,6 +6,21 @@ import BubbleDiv from "../../components/bubble-div/bubble-div.component";
 
 const HeatMap = () => {
   const { helperFetch } = useContext(AuthContext);
+  const [tenLast, setTenLast] = useState(null);
+  const [lifetime, setLifetime] = useState(null);
+
+  useEffect(() => {
+    const getHeatmaps = async () => {
+      const response = await helperFetch(
+        "http://localhost:8000/userauth/get-user-heatmaps/",
+        "GET",
+        null
+      );
+      const data = await response.json();
+      console.log("Heatmap:", data);
+    };
+    getHeatmaps();
+  }, []);
 
   return (
     <div className='heatmap-container'>

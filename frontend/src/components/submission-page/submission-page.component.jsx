@@ -18,6 +18,8 @@ const SubmissionPage = () => {
     setWordsTyped,
     setMistakesCount,
     setTimeElapsed,
+    MISTAKES_DEFAULT,
+    mistakes,
   } = useContext(PlayContext);
   const { helperFetch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -61,15 +63,20 @@ const SubmissionPage = () => {
     //     console.log(response);
     //     return;
     //   }
+    console.log(mistakes);
     const response = await helperFetch(
       "http://localhost:8000/userauth/submit-score/",
       "POST",
-      { wpm: wordsTyped / (timeElapsed / 1000 / 60) }
+      {
+        wpm: wordsTyped / (timeElapsed / 1000 / 60),
+        mistakes: mistakes.current,
+      }
     );
     setPhase(1);
     setWordsTyped(0);
     setMistakesCount(0);
     setTimeElapsed(0);
+    mistakes.current = MISTAKES_DEFAULT;
     navigate("/");
   };
   // };

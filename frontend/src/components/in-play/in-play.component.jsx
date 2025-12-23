@@ -18,6 +18,7 @@ const InPlay = () => {
 
     parToLines,
     paragraph,
+    mistakes,
   } = useContext(PlayContext);
   const navigate = useNavigate();
 
@@ -57,6 +58,62 @@ const InPlay = () => {
 
   const charIndexRef = useRef(0);
   const madeMistakeInCurrentWord = useRef(false);
+  const prevKeystrokeWasMistake = useRef(false);
+
+  const getKey = (char) => {
+    const charCode = char.charCodeAt(0);
+    if (97 <= charCode && charCode <= 122) {
+    } else if (65 <= charCode && charCode <= 90) {
+      char = char.toLowerCase();
+    } else {
+      switch (char) {
+        case "`":
+          char = "~";
+        case "!":
+          char = "1";
+        case "@":
+          char = "2";
+        case "#":
+          char = "3";
+        case "$":
+          char = "4";
+        case "%":
+          char = "5";
+        case "^":
+          char = "6";
+        case "&":
+          char = "7";
+        case "*":
+          char = "8";
+        case "(":
+          char = "9";
+        case ")":
+          char = "0";
+        case "_":
+          char = "-";
+        case "+":
+          char = "=";
+        case "{":
+          char = "[";
+        case "}":
+          char = "]";
+        case "\\":
+          char = "|";
+        case ":":
+          char = ";";
+        case "'":
+          char = '"';
+        case "<":
+          char = ",";
+        case ">":
+          char = ".";
+        case "/":
+          char = "?";
+      }
+    }
+
+    return char;
+  };
 
   const handleKeyPress = (event) => {
     if (event.key != "Shift") {
@@ -65,6 +122,7 @@ const InPlay = () => {
       );
       if (event.key == paragraph.charAt(charIndexRef.current)) {
         letterDiv.className = "correct";
+        prevKeystrokeWasMistake.current = false;
         if (event.key == " ") {
           if (!madeMistakeInCurrentWord.current) setWordsTyped(wordsTyped + 1);
           madeMistakeInCurrentWord.current = false;
@@ -73,8 +131,13 @@ const InPlay = () => {
         letterDiv.className = "wrong";
         if (!madeMistakeInCurrentWord.current) {
           madeMistakeInCurrentWord.current = true;
-          setMistakesCount(mistakesCount + 1);
         }
+        if (!prevKeystrokeWasMistake.current) {
+          console.log("Mistake:", paragraph.charAt(charIndexRef.current));
+          setMistakesCount(mistakesCount + 1);
+          mistakes.current[getKey(paragraph.charAt(charIndexRef.current))] += 1;
+        }
+        prevKeystrokeWasMistake.current = true;
       }
       charIndexRef.current++;
     }
