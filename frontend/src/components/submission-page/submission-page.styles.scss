@@ -1,7 +1,35 @@
 .submission-page-container {
-  background-color: gray;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  .body-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: inline-block;
+      margin: 20px;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-around;
+
+      .disregard {
+        background-color: red;
+      }
+
+      .submit {
+        background-color: rgb(82, 242, 82);
+      }
+
+      * {
+        margin: 20px;
+      }
+    }
+  }
 }

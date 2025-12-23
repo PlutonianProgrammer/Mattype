@@ -7,6 +7,12 @@
   padding: 20px;
 
   .my-stats-container {
+    .bubble-div {
+      cursor: default;
+      h3 {
+        cursor: text;
+      }
+    }
   }
 
   .graph-container {

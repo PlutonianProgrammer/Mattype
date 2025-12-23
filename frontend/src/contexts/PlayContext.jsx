@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { AuthContext } from "./AuthContext";
 
 export const PlayContext = createContext();
 
@@ -20,7 +19,7 @@ export const PlayProvider = ({ children }) => {
   };
 
   // PROCESS PARAGRAPH INTO LINES AND WORDS
-  const CHARS_PER_LINE = 125;
+  const CHARS_PER_LINE = 75;
   const parToLines = (paragraph) => {
     const words = paragraph.split(" ");
     const result = [];
@@ -29,13 +28,13 @@ export const PlayProvider = ({ children }) => {
 
     // get rows of words as lines
     for (const word of words) {
-      if (charsInCurLine + 1 + word.length <= CHARS_PER_LINE) {
+      if (charsInCurLine + word.length <= CHARS_PER_LINE) {
         curLine.push(word);
-        charsInCurLine += 1 + word.length;
+        charsInCurLine += word.length;
       } else {
         result.push(curLine);
         curLine = [word];
-        charsInCurLine = word.length + 1;
+        charsInCurLine = word.length;
       }
     }
     if (charsInCurLine != 0) {

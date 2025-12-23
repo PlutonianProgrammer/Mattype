@@ -19,7 +19,7 @@ const Home = () => {
       <BubbleDiv
         onClick={() => {
           guestLogin();
-          navigate("play/");
+          navigate("play");
         }}
       >
         Demo Now

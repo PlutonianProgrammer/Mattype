@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
+import BubbleDiv from "../bubble-div/bubble-div.component";
+
 import { PlayContext } from "../../contexts/PlayContext";
 
 import "./in-play.styles.scss";
@@ -97,7 +99,7 @@ const InPlay = () => {
           <span>Mistakes Made: {mistakesCount}</span>
         </div>
         <div className='time-container of-heads-up'>
-          <span>Time Elapsed: {timeElapsed / 1000}s</span>
+          <span>Time Elapsed: {(timeElapsed / 1000).toFixed(3)}s</span>
         </div>
       </div>
       <div
@@ -132,7 +134,7 @@ const InPlay = () => {
         ))}
       </div>
       <div className='quit-container'>
-        <button onClick={() => navigate("/")}>QUIT</button>
+        <BubbleDiv onClick={() => navigate("/")}>QUIT</BubbleDiv>
       </div>
     </div>
   );
