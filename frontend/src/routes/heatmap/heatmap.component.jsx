@@ -13,8 +13,10 @@ const HeatMap = () => {
   const colorKeyboard = (tenLast, lifetime) => {
     const data = displayingLifetime.current ? lifetime : tenLast;
     for (const character of Object.keys(data)) {
-      const key = document.getElementById(character);
-      key.className = key.className + " green";
+      if (data[character] > 0) {
+        const keyElement = document.getElementById(character);
+        keyElement.className = keyElement.className + " green";
+      }
     }
   };
 
@@ -28,6 +30,7 @@ const HeatMap = () => {
       const data = await response.json();
       setTenLast(data.ten_last);
       setLifetime(data.lifetime_mistakes);
+      // console.log(data.ten_last);
       colorKeyboard(data.ten_last, data.lifetime_mistakes);
     };
     getAndSetHeatmaps();
