@@ -56,6 +56,7 @@ export const PlayProvider = ({ children }) => {
     space: 0,
   };
   const mistakes = useRef(MISTAKES_DEFAULT);
+  const parWordCount = useRef({ ...MISTAKES_DEFAULT });
   // COUNTDOWN:
   const [countDownVar, setCountDownVar] = useState(100);
   const countDown = async (startNum) => {
@@ -140,6 +141,7 @@ export const PlayProvider = ({ children }) => {
         setParagraph,
 
         mistakes,
+        parWordCount,
       }}
     >
       {children}

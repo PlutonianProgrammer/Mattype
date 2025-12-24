@@ -11,11 +11,14 @@ class CustomUser(AbstractUser):
     wpm_log = models.FileField(upload_to='uploads/')
 
     last_ten_tests_mistakes = models.JSONField(default=list)
+    last_ten_tests_word_count = models.JSONField(default=list)
+
+    lifetime_mistakes = models.JSONField(default=dict)
+    lifetime_word_count = models.JSONField(default=dict)
+    
     tracking_index = models.IntegerField(default=0)
 
-    lifetime_total_mistakes = models.JSONField(default=dict)
-
-    def update_score_record(self, new_wpm, mistakes):
+    def update_score_record(self, new_wpm, mistakes, word_count):
         # Save best_wpm
         if self.best_wpm < new_wpm:
             self.best_wpm = new_wpm
@@ -35,22 +38,30 @@ class CustomUser(AbstractUser):
                 count += 1
             self.avg_wpm = sum_of_wpm / count
 
-        self.manageMistakeProfiles(mistakes)
+        self.manageMistakeProfiles(mistakes, word_count)
         self.save()
     
-    def manageMistakeProfiles(self, mistakes):
+    def manageMistakeProfiles(self, mistakes, word_count):
 
+        # If this is the first test, set the dictionaries to the ones given
         if (self.tracking_index == 0):
-            self.lifetime_total_mistakes = mistakes
+            self.lifetime_mistakes = mistakes
+            self.lifetime_total_word_count = word_count
+        # Otherwise, add all values from the given dicts to the lifetime tracker
         else:
             for key in self.lifetime_total_mistakes:
-                self.lifetime_total_mistakes[key] += mistakes[key]
+                self.lifetime_mistakes[key] += mistakes[key]
+                self.lifetime_word_count[key] += word_count[key]
 
+        # If-statement handles whether the last-10-tests-tracker should append or overwrite values
         if (self.tracking_index < 10):
             self.last_ten_tests_mistakes.append(mistakes) 
+            self.last_ten_tests_word_count.append(word_count)
         else:
             self.last_ten_tests_mistakes[self.tracking_index % 9] = mistakes
+            self.last_ten_tests_word_count[self.tracking_index % 9] = word_count
 
+        # % 9 to get the oldest entry of the last 10
         self.tracking_index += 1
     
     def getDataOfGraph(self):

@@ -30,6 +30,7 @@ const SignIn = () => {
         placeholder='password'
       />
       <BubbleDiv onClick={handleSubmit}>Sign In</BubbleDiv>
+      <br />
       <BubbleDiv className='guest-button' onClick={guestLogin}>
         Sign In As Guest
       </BubbleDiv>

@@ -20,6 +20,7 @@ const SubmissionPage = () => {
     setTimeElapsed,
     MISTAKES_DEFAULT,
     mistakes,
+    parWordCount,
   } = useContext(PlayContext);
   const { helperFetch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ const SubmissionPage = () => {
       {
         wpm: wordsTyped / (timeElapsed / 1000 / 60),
         mistakes: mistakes.current,
+        chars: parWordCount.current,
       }
     );
     setPhase(1);
@@ -77,6 +79,7 @@ const SubmissionPage = () => {
     setMistakesCount(0);
     setTimeElapsed(0);
     mistakes.current = MISTAKES_DEFAULT;
+    mistakes.current = { ...MISTAKES_DEFAULT };
     navigate("/");
   };
   // };
