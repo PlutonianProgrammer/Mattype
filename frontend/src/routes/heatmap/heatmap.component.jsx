@@ -10,11 +10,18 @@ const HeatMap = () => {
   const [lifetime, setLifetime] = useState(null);
   const displayingLifetime = useRef(false);
 
-  const colorKeyboard = (tenLast, lifetime) => {
+  const colorKeyboard = (tenLast, lifetime, tenLastAvg, lifetimeAvg) => {
     const data = displayingLifetime.current ? lifetime : tenLast;
+    let nonZeroKeys = 0;
+    const avgMistakesPerKey =
+      Object.values(data).reduce((sum, mistakes) => {
+        if (mistakes != 0) nonZeroKeys++;
+        return sum + mistakes;
+      }, 0) / nonZeroKeys;
+    console.log(avgMistakesPerKey);
     for (const character of Object.keys(data)) {
-      if (data[character] > 0) {
-        const keyElement = document.getElementById(character);
+      const keyElement = document.getElementById(character);
+      if (data[character] > avgMistakesPerKey) {
         keyElement.className = keyElement.className + " green";
       }
     }
@@ -28,6 +35,7 @@ const HeatMap = () => {
         null
       );
       const data = await response.json();
+      console.log(data);
       setTenLast(data.ten_last);
       setLifetime(data.lifetime_mistakes);
       // console.log(data.ten_last);

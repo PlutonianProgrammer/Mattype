@@ -19,6 +19,7 @@ const InPlay = () => {
     parToLines,
     paragraph,
     mistakes,
+    parWordCount,
   } = useContext(PlayContext);
   const navigate = useNavigate();
 
@@ -117,6 +118,10 @@ const InPlay = () => {
 
   const handleKeyPress = (event) => {
     if (event.key != "Shift") {
+      // Logging keycount:
+      const properKey = getKey(charIndexRef.current);
+      parWordCount.current[properKey] += 1;
+
       const letterDiv = document.getElementById(
         `LETTER-${charIndexRef.current}`
       );

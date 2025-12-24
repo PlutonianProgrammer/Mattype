@@ -26,8 +26,11 @@ class update_user_score_records(APIView):
         mistakes = request.data.get('mistakes')
         if mistakes is None:
             return Response({'error': 'No mistake profile specified'}, status=status.HTTP_400_BAD_REQUEST)
+        word_count = request.data.get('wordCount')
+        if word_count is None:
+            return Response({'error': 'No word-count profile specified'}, status=status.HTTP_400_BAD_REQUEST)
         user = request.user
-        user.update_score_record(float(wpm), mistakes)
+        user.update_score_record(float(wpm), mistakes, word_count)
         return Response(status=204)
 
 def helper_leaderboard(score_type_str, username):
@@ -108,7 +111,8 @@ class get_user_heatmaps(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        lifetime_mistakes = request.user.lifetime_total_mistakes
-        ten_last = request.user.lifetime_total_mistakes
-        return Response({'lifetime_mistakes': lifetime_mistakes,
-                             'ten_last': ten_last})
+
+        return Response({'lifetime_mistakes': self.lifetime_mistakes,
+                             'ten_last_mistakes': self.ten_last_mistakes,
+                             'lifetime_word_count': self.lifetime_word_count,
+                             'ten_last_word_count': self.ten_last_word_count})
