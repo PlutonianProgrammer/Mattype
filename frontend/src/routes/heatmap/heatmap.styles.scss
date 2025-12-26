@@ -36,6 +36,21 @@
       #space {
         width: 550px;
       }
+      .none {
+        background-color: gray;
+      }
+      .best-quarter {
+        background-color: rgb(52, 182, 52);
+      }
+      .best-half {
+        background-color: rgb(79, 128, 0);
+      }
+      .worst-half {
+        background-color: rgb(111, 162, 0);
+      }
+      .worst-quarter {
+        background-color: rgb(166, 255, 0);
+      }
     }
   }
 }

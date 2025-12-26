@@ -20,15 +20,18 @@ class update_user_score_records(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
+
         wpm = request.data.get('wpm')
+        mistakes = request.data.get('mistakes')
+        word_count = request.data.get('wordCount')
+
         if wpm is None:
             return Response({'error': 'No WPM specified'}, status=status.HTTP_400_BAD_REQUEST)
-        mistakes = request.data.get('mistakes')
         if mistakes is None:
             return Response({'error': 'No mistake profile specified'}, status=status.HTTP_400_BAD_REQUEST)
-        word_count = request.data.get('wordCount')
         if word_count is None:
             return Response({'error': 'No word-count profile specified'}, status=status.HTTP_400_BAD_REQUEST)
+        
         user = request.user
         user.update_score_record(float(wpm), mistakes, word_count)
         return Response(status=204)
@@ -112,7 +115,26 @@ class get_user_heatmaps(APIView):
 
     def get(self, request):
 
-        return Response({'lifetime_mistakes': self.lifetime_mistakes,
-                             'ten_last_mistakes': self.ten_last_mistakes,
-                             'lifetime_word_count': self.lifetime_word_count,
-                             'ten_last_word_count': self.ten_last_word_count})
+        def accumulateToSingleDict(dict_list):
+            resulting_dict = {}
+            if not dict_list:
+                return resulting_dict
+            
+            for dictionary in dict_list:
+                print(dictionary)
+                for key in dictionary:
+                    if dictionary[key] != None:
+                        if key not in resulting_dict:
+                            resulting_dict[key] = dictionary[key]
+                        else:
+                            resulting_dict[key] += dictionary[key]
+            return resulting_dict
+
+        user = request.user
+
+        return Response({
+            'last_ten_tests_mistakes': accumulateToSingleDict(user.last_ten_tests_mistakes),
+            'last_ten_tests_word_count': accumulateToSingleDict(user.last_ten_tests_word_count),
+            'lifetime_mistakes': user.lifetime_mistakes,
+            'lifetime_word_count': user.lifetime_word_count
+        })

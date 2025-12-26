@@ -55,6 +55,7 @@ export const PlayProvider = ({ children }) => {
     "/": 0,
     space: 0,
   };
+
   const mistakes = useRef(MISTAKES_DEFAULT);
   const parWordCount = useRef({ ...MISTAKES_DEFAULT });
   // COUNTDOWN:
@@ -104,10 +105,6 @@ export const PlayProvider = ({ children }) => {
     return result;
   };
 
-  useEffect(() => {
-    console.log("PHASE:", phase);
-  }, [phase]);
-
   const [wordsTyped, setWordsTyped] = useState(0);
   const [mistakesCount, setMistakesCount] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
@@ -115,7 +112,11 @@ export const PlayProvider = ({ children }) => {
   const [paragraph, setParagraph] = useState("");
 
   useEffect(() => {
-    if (phase == 1) setParagraph("");
+    if (phase == 1) {
+      setParagraph("");
+      mistakes.current = MISTAKES_DEFAULT;
+      parWordCount.current = { ...MISTAKES_DEFAULT };
+    }
   }, [phase]);
 
   return (
