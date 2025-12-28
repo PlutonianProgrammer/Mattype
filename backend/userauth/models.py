@@ -52,11 +52,11 @@ class CustomUser(AbstractUser):
         # If this is the first test, set the lifetime dictionaries to the ones given, as they are equivalent
         if (self.tracking_index == 0):
             self.lifetime_mistakes = mistakes
-            self.lifetime_total_word_count = word_count
+            self.lifetime_word_count = word_count
 
         # Otherwise, add all values from the given dicts to the lifetime dictionaries
         else:
-            for key in self.lifetime_total_mistakes:
+            for key in self.lifetime_mistakes:
                 self.lifetime_mistakes[key] += mistakes[key]
                 self.lifetime_word_count[key] += word_count[key]
 
