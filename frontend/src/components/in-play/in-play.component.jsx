@@ -61,65 +61,67 @@ const InPlay = () => {
   const madeMistakeInCurrentWord = useRef(false);
   const prevKeystrokeWasMistake = useRef(false);
 
-  const getKey = (char) => {
-    const charCode = char.charCodeAt(0);
+  const getKey = (c) => {
+    const charCode = c.charCodeAt(0);
     if (97 <= charCode && charCode <= 122) {
     } else if (65 <= charCode && charCode <= 90) {
-      char = char.toLowerCase();
+      c = c.toLowerCase();
     } else {
-      switch (char) {
+      switch (c) {
         case "`":
-          char = "~";
+          c = "~";
         case "!":
-          char = "1";
+          c = "1";
         case "@":
-          char = "2";
+          c = "2";
         case "#":
-          char = "3";
+          c = "3";
         case "$":
-          char = "4";
+          c = "4";
         case "%":
-          char = "5";
+          c = "5";
         case "^":
-          char = "6";
+          c = "6";
         case "&":
-          char = "7";
+          c = "7";
         case "*":
-          char = "8";
+          c = "8";
         case "(":
-          char = "9";
+          c = "9";
         case ")":
-          char = "0";
+          c = "0";
         case "_":
-          char = "-";
+          c = "-";
         case "+":
-          char = "=";
+          c = "=";
         case "{":
-          char = "[";
+          c = "[";
         case "}":
-          char = "]";
+          c = "]";
         case "\\":
-          char = "|";
+          c = "|";
         case ":":
-          char = ";";
+          c = ";";
         case "'":
-          char = '"';
+          c = '"';
         case "<":
-          char = ",";
+          c = ",";
         case ">":
-          char = ".";
+          c = ".";
         case "/":
-          char = "?";
+          c = "?";
+        case " ":
+          c = "space";
       }
     }
 
-    return char;
+    return c;
   };
 
   const handleKeyPress = (event) => {
     if (event.key != "Shift") {
       // Logging keycount:
-      const properKey = getKey(charIndexRef.current);
+      const properKey = getKey(paragraph.charAt(charIndexRef.current));
       parWordCount.current[properKey] += 1;
 
       const letterDiv = document.getElementById(

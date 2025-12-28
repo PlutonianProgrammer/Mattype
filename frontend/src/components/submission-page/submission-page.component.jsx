@@ -71,7 +71,7 @@ const SubmissionPage = () => {
       {
         wpm: wordsTyped / (timeElapsed / 1000 / 60),
         mistakes: mistakes.current,
-        chars: parWordCount.current,
+        wordCount: parWordCount.current,
       }
     );
     setPhase(1);
@@ -98,8 +98,8 @@ const SubmissionPage = () => {
         </BubbleDiv>
 
         <div className='action-buttons'>
-          <BubbleDiv className='disregard' onClick={() => navigate("/")}>
-            DISREGARD
+          <BubbleDiv className='discard' onClick={() => navigate("/")}>
+            DISCARD
           </BubbleDiv>
           <BubbleDiv className='submit' onClick={handleSubmit}>
             SUBMIT

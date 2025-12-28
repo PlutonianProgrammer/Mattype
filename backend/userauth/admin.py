@@ -4,4 +4,4 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'best_wpm', 'avg_wpm', 'last_ten_tests_mistakes', 'tracking_index')
+    list_display = ('username', 'email', 'best_wpm', 'avg_wpm', 'last_ten_tests_mistakes', 'last_ten_tests_word_count', 'lifetime_mistakes', 'lifetime_word_count', 'tracking_index')

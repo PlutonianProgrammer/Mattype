@@ -121,7 +121,6 @@ class get_user_heatmaps(APIView):
                 return resulting_dict
             
             for dictionary in dict_list:
-                print(dictionary)
                 for key in dictionary:
                     if dictionary[key] != None:
                         if key not in resulting_dict:
