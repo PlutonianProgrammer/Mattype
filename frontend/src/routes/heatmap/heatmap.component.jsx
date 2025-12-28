@@ -40,15 +40,15 @@ const HeatMap = () => {
       ? [lifetimeMistakes, lifetimeWordCount]
       : [tenMistakes, tenWordCount];
 
-    console.log("10 Mist:", mistakes);
+    // console.log("10 Mist:", mistakes);
 
     const multiplier = displayingProportion
       ? getWorstRatio(mistakes, wordCount)
       : 1;
 
-    console.log(mistakes);
+    // console.log(mistakes);
     for (const key of Object.keys(mistakes)) {
-      console.log(key);
+      // console.log(key);
       const div = document.getElementById(key);
       if (wordCount[key] == 0) {
         div.className = replacePrefix(div.className, "none");
@@ -61,8 +61,8 @@ const HeatMap = () => {
       } else if (mistakes[key] / wordCount[key] <= 0.75 * multiplier) {
         div.className = replacePrefix(div.className, "worst-half");
       } else {
-        console.log(typeof mistakes[key], typeof wordCount[key]);
-        console.log(wordCount[key]);
+        // console.log(typeof mistakes[key], typeof wordCount[key]);
+        // console.log(wordCount[key]);
         div.className = replacePrefix(div.className, "worst-quarter");
       }
     }
@@ -73,13 +73,27 @@ const HeatMap = () => {
 
   const handleMouseEnter = (e) => {
     const div = e.currentTarget;
+
     holdKeyChars.current = div.innerHTML;
     holdKeyClass.current = div.className;
 
-    div.innerHTML = "test";
+    const [mistakes, wordCount] = displayingLifetime
+      ? [lifetimeMistakes, lifetimeWordCount]
+      : [tenLastMistakes, tenLastWordCount];
+    const id = div.id;
+
+    div.className = "hovered " + div.className;
+
+    div.innerHTML = `<p>${wordCount[id] - mistakes[id]} / ${wordCount[id]}</p>`;
+    if (wordCount[id] != 0) {
+      div.innerHTML += `<p>${
+        ((wordCount[id] - mistakes[id]) / wordCount[id]).toFixed(2) * 100
+      }%</p>`;
+    }
   };
   const handleMouseLeave = (e) => {
     const div = e.currentTarget;
+
     div.innerHTML = holdKeyChars.current;
     div.className = holdKeyClass.current;
   };
@@ -101,8 +115,8 @@ const HeatMap = () => {
       const lifetimeWordCount = data.lifetime_word_count;
       setLifetimeWordCount(lifetimeWordCount);
 
-      console.log("10 MIST:", lastTenTestsMistakes);
-      console.log("LIFE:", lifetimeMistakes);
+      // console.log("10 MIST:", lastTenTestsMistakes);
+      // console.log("LIFE:", lifetimeMistakes);
 
       colorKeyboard(
         lastTenTestsMistakes,
@@ -163,8 +177,8 @@ const HeatMap = () => {
           <div
             id='~'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>`</p>
             <p>~</p>
@@ -172,8 +186,8 @@ const HeatMap = () => {
           <div
             id='1'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>1</p>
             <p>!</p>
@@ -181,8 +195,8 @@ const HeatMap = () => {
           <div
             id='2'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>2</p>
             <p>@</p>
@@ -190,8 +204,8 @@ const HeatMap = () => {
           <div
             id='3'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>3</p>
             <p>#</p>
@@ -199,8 +213,8 @@ const HeatMap = () => {
           <div
             id='4'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>4</p>
             <p>$</p>
@@ -208,8 +222,8 @@ const HeatMap = () => {
           <div
             id='5'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>5</p>
             <p>%</p>
@@ -217,8 +231,8 @@ const HeatMap = () => {
           <div
             id='6'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>6</p>
             <p>^</p>
@@ -226,8 +240,8 @@ const HeatMap = () => {
           <div
             id='7'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>7</p>
             <p>&</p>
@@ -235,8 +249,8 @@ const HeatMap = () => {
           <div
             id='8'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>8</p>
             <p>*</p>
@@ -244,8 +258,8 @@ const HeatMap = () => {
           <div
             id='9'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>9</p>
             <p>(</p>
@@ -253,8 +267,8 @@ const HeatMap = () => {
           <div
             id='0'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>0</p>
             <p>)</p>
@@ -262,8 +276,8 @@ const HeatMap = () => {
           <div
             id='-'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>-</p>
             <p>_</p>
@@ -271,8 +285,8 @@ const HeatMap = () => {
           <div
             id='='
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>=</p>
             <p>+</p>
@@ -282,88 +296,88 @@ const HeatMap = () => {
           <div
             id='q'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             q
           </div>
           <div
             id='w'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             w
           </div>
           <div
             id='e'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             e
           </div>
           <div
             id='r'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             r
           </div>
           <div
             id='t'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             t
           </div>
           <div
             id='y'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             y
           </div>
           <div
             id='u'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             u
           </div>
           <div
             id='i'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             i
           </div>
           <div
             id='o'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             o
           </div>
           <div
             id='p'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             p
           </div>
           <div
             id='['
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>[</p>
             <p>{`${"{"}`}</p>
@@ -371,8 +385,8 @@ const HeatMap = () => {
           <div
             id=']'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>]</p>
             <p>{`${"}"}`}</p>
@@ -380,8 +394,8 @@ const HeatMap = () => {
           <div
             id='|'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>\</p>
             <p>|</p>
@@ -391,80 +405,80 @@ const HeatMap = () => {
           <div
             id='a'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             a
           </div>
           <div
             id='s'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             s
           </div>
           <div
             id='d'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             d
           </div>
           <div
             id='f'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             f
           </div>
           <div
             id='g'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             g
           </div>
           <div
             id='h'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             h
           </div>
           <div
             id='j'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             j
           </div>
           <div
             id='k'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             k
           </div>
           <div
             id='l'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             l
           </div>
           <div
             id=';'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>;</p>
             <p>:</p>
@@ -472,8 +486,8 @@ const HeatMap = () => {
           <div
             id='"'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>'</p>
             <p>"</p>
@@ -483,64 +497,64 @@ const HeatMap = () => {
           <div
             id='z'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             z
           </div>
           <div
             id='x'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             x
           </div>
           <div
             id='c'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             c
           </div>
           <div
             id='v'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             v
           </div>
           <div
             id='b'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             b
           </div>
           <div
             id='n'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             n
           </div>
           <div
             id='m'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             m
           </div>
           <div
             id=','
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>,</p>
             <p>{`${"<"}`}</p>
@@ -548,8 +562,8 @@ const HeatMap = () => {
           <div
             id='.'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>.</p>
             <p>{`${">"}`}</p>
@@ -557,8 +571,8 @@ const HeatMap = () => {
           <div
             id='/'
             className='none key double'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           >
             <p>/</p>
             <p>?</p>
@@ -568,8 +582,8 @@ const HeatMap = () => {
           <div
             id='space'
             className='none key'
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onPointerEnter={handleMouseEnter}
+            onPointerLeave={handleMouseLeave}
           ></div>
         </div>
       </div>

@@ -18,8 +18,8 @@
       .key {
         margin: 10px;
         font-size: 30px;
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -34,7 +34,7 @@
         font-size: 20px;
       }
       #space {
-        width: 550px;
+        width: 600px;
       }
       .none {
         background-color: gray;
@@ -46,17 +46,20 @@
         background-color: green;
       }
       .best-half {
-        background-color: yellow;
+        background-color: rgb(225, 255, 0);
       }
       .worst-half {
-        background-color: orange;
+        background-color: rgb(255, 136, 0);
       }
       .worst-quarter {
         background-color: red;
       }
+      .hovered {
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
-}
-.green {
-  background-color: green;
 }
