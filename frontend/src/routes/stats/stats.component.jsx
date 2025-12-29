@@ -32,8 +32,10 @@ const Stats = () => {
             <>
               <h1>My Stats</h1>
               <BubbleDiv>
-                <h3>Best WPM: {user.best_wpm.toFixed(2)} wpm</h3>
-                <h3>Avg WPM: {user.avg_wpm.toFixed(2)} wpm</h3>
+                <h3>
+                  Best WPM: {user.best_wpm && user.best_wpm.toFixed(2)} wpm
+                </h3>
+                <h3>Avg WPM: {user.avg_wpm && user.avg_wpm.toFixed(2)} wpm</h3>
               </BubbleDiv>
             </>
           )}

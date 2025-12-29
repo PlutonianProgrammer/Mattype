@@ -2,7 +2,6 @@ import PodiumPiece from "../podium-piece/podium-piece.component";
 
 import "./podium.styles.scss";
 const Podium = ({ firstPlace, secondPlace, thirdPlace }) => {
-  console.log(firstPlace, typeof firstPlace);
   return (
     <div className='podium-container'>
       {secondPlace && <PodiumPiece user={secondPlace} placement='2' />}

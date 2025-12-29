@@ -8,6 +8,7 @@ urlpatterns = [
     path('get-leaderboard-placement-avg/', leaderboard_placement_avg),
     path('get-user-graph/', get_user_graph.as_view()),
     path('get-user-heatmaps/', get_user_heatmaps.as_view()),
+    # path('get-typing-par/', get_typing_par),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 ]

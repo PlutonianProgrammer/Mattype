@@ -41,17 +41,15 @@ const Leaderboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("FETCHING");
       const response = await helperFetch(
         `http://localhost:8000/userauth/get-leaderboard-placement-${scoreToFetch}/`,
         "GET",
         null
       );
       const data = await response.json();
-      console.log(data);
-      setFirstPlace(data.first);
-      setSecondPlace(data.second);
-      setThirdPlace(data.third);
+      setFirstPlace(data.first.username ? data.first : null);
+      setSecondPlace(data.second.username ? data.second : null);
+      setThirdPlace(data.third.username ? data.third : null);
       setPlacement(data.placement);
       setParticipants(data.participants);
     };
@@ -83,9 +81,11 @@ const Leaderboard = () => {
             <h2>My Stats:</h2>
             <h4>
               My Best WPM--
-              {user.best_wpm.toFixed(2)}wpm
+              {user.best_wpm && user.best_wpm.toFixed(2)}wpm
             </h4>
-            <h4>My Average WPM-- {user.avg_wpm.toFixed(2)}wpm</h4>
+            <h4>
+              My Average WPM-- {user.avg_wpm && user.avg_wpm.toFixed(2)}wpm
+            </h4>
             <h4>
               My Placement-- {placement}
               {placementToSuffix()} of {participants} Participants
@@ -95,15 +95,9 @@ const Leaderboard = () => {
       </div>
       <div className='leaderboard-right-side'>
         <div id='above-podium'>
-          <h2>
+          <BubbleDiv onClick={switchScoreToFetch}>
             Displaying{" "}
             {scoreToFetch.charAt(0).toUpperCase() + scoreToFetch.slice(1)} WPM
-          </h2>
-          <BubbleDiv
-            className='switch-score-type-button'
-            onClick={switchScoreToFetch}
-          >
-            Change to {scoreToFetch == "best" ? "Avg WPM" : "Best WPM"}
           </BubbleDiv>
         </div>
         <Podium

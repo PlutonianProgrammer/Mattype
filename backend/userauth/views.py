@@ -11,11 +11,21 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+import requests
 
 from .models import CustomUser
 
 # Create your views here.
+
+# def get_typing_par(request):
+#     response = requests.get('https://lipsum.com/api', params={'paras': 1, 'type': 'json'})
+#     print("STATUS:", response.status_code)
+#     print('TEXT:', response.text)
+#     data = response.json()
+
+#     return JsonResponse(data, safe=False)
+
 class update_user_score_records(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

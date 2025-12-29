@@ -119,6 +119,8 @@ export const PlayProvider = ({ children }) => {
     }
   }, [phase]);
 
+  const [link, setLink] = useState(null);
+
   return (
     <PlayContext.Provider
       value={{
@@ -143,6 +145,8 @@ export const PlayProvider = ({ children }) => {
 
         mistakes,
         parWordCount,
+        link,
+        setLink,
       }}
     >
       {children}

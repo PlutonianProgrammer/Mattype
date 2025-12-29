@@ -21,6 +21,7 @@ const SubmissionPage = () => {
     MISTAKES_DEFAULT,
     mistakes,
     parWordCount,
+    setLink,
   } = useContext(PlayContext);
   const { helperFetch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -64,7 +65,8 @@ const SubmissionPage = () => {
     //     console.log(response);
     //     return;
     //   }
-    console.log(mistakes);
+    console.log("MIST:", mistakes.current);
+    console.log("WC:", parWordCount.current);
     const response = await helperFetch(
       "http://localhost:8000/userauth/submit-score/",
       "POST",
@@ -79,7 +81,8 @@ const SubmissionPage = () => {
     setMistakesCount(0);
     setTimeElapsed(0);
     mistakes.current = MISTAKES_DEFAULT;
-    mistakes.current = { ...MISTAKES_DEFAULT };
+    parWordCount.current = { ...MISTAKES_DEFAULT };
+    setLink(null);
     navigate("/");
   };
   // };
