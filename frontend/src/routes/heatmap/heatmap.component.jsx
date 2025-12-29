@@ -61,8 +61,9 @@ const HeatMap = () => {
       } else if (mistakes[key] / wordCount[key] <= 0.75 * multiplier) {
         div.className = replacePrefix(div.className, "worst-half");
       } else {
-        // console.log(typeof mistakes[key], typeof wordCount[key]);
-        // console.log(wordCount[key]);
+        console.log(mistakes);
+        console.log(typeof mistakes[key], typeof wordCount[key]);
+        console.log(wordCount[key]);
         div.className = replacePrefix(div.className, "worst-quarter");
       }
     }
@@ -116,7 +117,8 @@ const HeatMap = () => {
       setLifetimeWordCount(lifetimeWordCount);
 
       // console.log("10 MIST:", lastTenTestsMistakes);
-      // console.log("LIFE:", lifetimeMistakes);
+      console.log("LIFE MIST:", lifetimeMistakes);
+      console.log("LIFE COUNT:", lifetimeWordCount);
 
       colorKeyboard(
         lastTenTestsMistakes,

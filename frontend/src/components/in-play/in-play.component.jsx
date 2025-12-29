@@ -20,6 +20,7 @@ const InPlay = () => {
     paragraph,
     mistakes,
     parWordCount,
+    link,
   } = useContext(PlayContext);
   const navigate = useNavigate();
 
@@ -205,6 +206,12 @@ const InPlay = () => {
       </div>
       <div className='quit-container'>
         <BubbleDiv onClick={() => navigate("/")}>QUIT</BubbleDiv>
+      </div>
+      <div className='credit-container'>
+        <a href={"https://creativecommons.org/licenses/by-sa/4.0/deed.en"}>
+          Source: Wikipedia, CC BY-SA 4.0
+        </a>
+        <a href={link}>{link}</a>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ const Home = () => {
           navigate("play");
         }}
       >
-        Demo Now
+        Play Now
       </BubbleDiv>
     </div>
   );

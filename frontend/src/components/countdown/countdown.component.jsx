@@ -3,26 +3,31 @@ import { PlayContext } from "../../contexts/PlayContext";
 import BubbleDiv from "../bubble-div/bubble-div.component";
 import "./countdown.styles.scss";
 const CountDown = () => {
-  const { countDown, countDownVar, setParagraph } = useContext(PlayContext);
+  const { countDown, countDownVar, setParagraph, setLink } =
+    useContext(PlayContext);
+
   useEffect(() => {
     countDown(3);
   }, []);
 
   useEffect(() => {
+    // Fetching paragraph from Wikipedia, by CC BY-SA 4.0
     const getWiki = async () => {
-      const title = "soccer";
-      const response = await fetch(
-        `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&titles=Computer_keyboard&format=json&origin=*`
-      );
-      console.log("RES:", response);
-      const data = await response.json();
-      console.log("DATA:", data);
-      const pages = data.query.pages;
-      const pageID = Object.keys(pages)[0];
-      const extract = pages[pageID].extract;
+      const isEnglish = (text) => /^[A-Za-z]+$/.test(text);
 
-      const introParagraph = extract.split("\n")[0];
-      setParagraph(introParagraph);
+      let paragraph = "";
+      let i = 0;
+      while (paragraph.length < 300 && !isEnglish(paragraph)) {
+        console.log(i);
+        const response = await fetch(
+          "https://en.wikipedia.org/api/rest_v1/page/random/summary",
+          { headers: { Accept: "application/json" } }
+        );
+        const data = await response.json();
+        paragraph = data.extract;
+        setLink(data.content_urls.desktop.page);
+      }
+      setParagraph(paragraph);
     };
     getWiki();
   }, []);
