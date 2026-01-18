@@ -24,6 +24,8 @@ yarn-error.log*
 
 # Environment
 /venv
+frontend/.env
+backend/.env
 # BACKEND---
 __pycache__/
 *.py[cod]
