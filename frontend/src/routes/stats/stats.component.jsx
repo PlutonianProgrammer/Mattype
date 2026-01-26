@@ -16,7 +16,7 @@ const Stats = () => {
         "GET",
         null,
       );
-      console.log("RESPONSE:", response);
+      console.log("RESPONSE", response);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       setImageUrl(url);
