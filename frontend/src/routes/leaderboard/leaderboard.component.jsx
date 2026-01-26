@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react";
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -9,52 +8,31 @@ import Podium from "../../components/podium/podium.component";
 import "./leaderboard.styles.scss";
 
 const Leaderboard = () => {
-  const [firstPlace, setFirstPlace] = useState(null);
-  const [secondPlace, setSecondPlace] = useState(null);
-  const [thirdPlace, setThirdPlace] = useState(null);
-  const [placement, setPlacement] = useState(0);
-  const [participants, setParticipants] = useState(0);
+  const [bestDisplay, setBestDisply] = useState(null);
+  const [avgDisplay, setAvgDisplay] = useState(null);
+
+  const [placement, setPlacement] = useState(-1);
+  const [participants, setParticipants] = useState(-1);
 
   const [scoreToFetch, setScoreToFetch] = useState("avg");
 
   const { user, helperFetch } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const response = await helperFetch(
-  //       "http://localhost:8000/userauth/get-leaderboard-placement-best/",
-  //       "GET",
-  //       null
-  //     );
-  //     console.log("LOGGING:", response);
-  //     const data = await response.json();
-  //     console.log("DATA:", data);
-  //     setFirstPlace(data.first);
-  //     setSecondPlace(data.second);
-  //     setThirdPlace(data.third);
-  //     setPlacement(data.placement);
-  //     setParticipants(data.participants);
-  //   }
-
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await helperFetch(
-        `http://localhost:8000/userauth/get-leaderboard-placement-${scoreToFetch}/`,
+        "http://localhost:8000/userauth/get-leaderboard/",
         "GET",
-        null
+        null,
       );
+
       const data = await response.json();
-      setFirstPlace(data.first.username ? data.first : null);
-      setSecondPlace(data.second.username ? data.second : null);
-      setThirdPlace(data.third.username ? data.third : null);
-      setPlacement(data.placement);
-      setParticipants(data.participants);
+      console.log(data);
+      setBestDisply(data.best_data);
+      setAvgDisplay(data.avg_data);
     };
     fetchData();
-  }, [scoreToFetch]);
+  }, []);
 
   const switchScoreToFetch = () => {
     if (scoreToFetch == "best") setScoreToFetch("avg");
@@ -70,43 +48,54 @@ const Leaderboard = () => {
   };
 
   return (
-    <div className='leaderboard-container'>
-      <div className='leaderboard-left-side'>
-        <h1>Leaderboard</h1>
+    bestDisplay && (
+      <div className='leaderboard-container'>
+        <div className='leaderboard-left-side'>
+          <h1>Leaderboard</h1>
 
-        {!user && <h2>Login to See Placement</h2>}
+          {!user && <h2>Login to See Placement</h2>}
 
-        {user && (
-          <BubbleDiv className='leaderboard-user-stats'>
-            <h2>My Stats:</h2>
-            <h4>
-              My Best WPM--
-              {user.best_wpm && user.best_wpm.toFixed(2)}wpm
-            </h4>
-            <h4>
-              My Average WPM-- {user.avg_wpm && user.avg_wpm.toFixed(2)}wpm
-            </h4>
-            <h4>
-              My Placement-- {placement}
-              {placementToSuffix()} of {participants} Participants
-            </h4>
-          </BubbleDiv>
-        )}
-      </div>
-      <div className='leaderboard-right-side'>
-        <div id='above-podium'>
-          <BubbleDiv onClick={switchScoreToFetch}>
-            Displaying{" "}
-            {scoreToFetch.charAt(0).toUpperCase() + scoreToFetch.slice(1)} WPM
-          </BubbleDiv>
+          {user && (
+            <BubbleDiv className='leaderboard-user-stats'>
+              <h2>My Stats:</h2>
+              <h4>
+                My Best WPM--
+                {user.best_wpm && user.best_wpm.toFixed(2)}wpm
+              </h4>
+              <h4>
+                My Average WPM-- {user.avg_wpm && user.avg_wpm.toFixed(2)}wpm
+              </h4>
+              <h4>
+                My Placement--{" "}
+                {scoreToFetch == "best"
+                  ? bestDisplay.placement
+                  : avgDisplay.placement}
+                {placementToSuffix()} of {participants} Participants
+              </h4>
+            </BubbleDiv>
+          )}
         </div>
-        <Podium
-          firstPlace={firstPlace}
-          secondPlace={secondPlace}
-          thirdPlace={thirdPlace}
-        />
+        <div className='leaderboard-right-side'>
+          <div id='above-podium'>
+            <BubbleDiv onClick={switchScoreToFetch}>
+              Displaying{" "}
+              {scoreToFetch.charAt(0).toUpperCase() + scoreToFetch.slice(1)} WPM
+            </BubbleDiv>
+          </div>
+          <Podium
+            firstPlace={
+              scoreToFetch == "best" ? bestDisplay.first : avgDisplay.first
+            }
+            secondPlace={
+              scoreToFetch == "best" ? bestDisplay.second : avgDisplay.second
+            }
+            thirdPlace={
+              scoreToFetch == "best" ? bestDisplay.third : avgDisplay.third
+            }
+          />
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

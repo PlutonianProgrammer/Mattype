@@ -7,10 +7,10 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   // useState on access/refresh tokens and user
   const [accessToken, setAccessToken] = useState(
-    localStorage.getItem("access")
+    localStorage.getItem("access"),
   );
   const [refreshToken, setRefreshToken] = useState(
-    localStorage.getItem("refresh")
+    localStorage.getItem("refresh"),
   );
   const [user, setUser] = useState(null);
 
@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
     const response = await helperFetch(
       AUTHENTICATION_URL_HEAD + "users/me/",
       "GET",
-      null
+      null,
     );
 
     if (response.ok) {
@@ -182,6 +182,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        fetchUser,
 
         signUp,
         login,
@@ -189,6 +190,9 @@ export const AuthProvider = ({ children }) => {
 
         helperFetch,
         guestLogin,
+
+        setAccessToken,
+        setRefreshToken,
       }}
     >
       {children}

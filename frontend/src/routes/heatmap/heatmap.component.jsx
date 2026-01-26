@@ -7,26 +7,26 @@ import BubbleDiv from "../../components/bubble-div/bubble-div.component";
 const HeatMap = () => {
   const { helperFetch } = useContext(AuthContext);
   const [tenLastMistakes, setTenLastMistakes] = useState(null);
-  const [tenLastWordCount, setTenLastWordCount] = useState(null);
+  const [tenLastCharCount, setTenLastCharCount] = useState(null);
   const [lifetimeMistakes, setLifetimeMistakes] = useState(null);
-  const [lifetimeWordCount, setLifetimeWordCount] = useState(null);
+  const [lifetimeCharCount, setLifetimeCharCount] = useState(null);
   const [displayingLifetime, setDisplayingLifetime] = useState(false);
   const [displayingProportion, setDisplayingProportion] = useState(true);
 
   const colorKeyboard = (
     tenMistakes,
-    tenWordCount,
+    tenCharCount,
     lifetimeMistakes,
-    lifetimeWordCount,
+    lifetimeCharCount,
     displayingLifetime,
-    displayingProportion
+    displayingProportion,
   ) => {
-    const getWorstRatio = (mistakes, wordCount) => {
+    const getWorstRatio = (mistakes, charCount) => {
       let currentWorstRatio = 0;
       for (const key of Object.keys(mistakes)) {
-        if (wordCount[key] != 0) {
-          if (mistakes[key] / wordCount[key] > currentWorstRatio) {
-            currentWorstRatio = mistakes[key] / wordCount[key];
+        if (charCount[key] != 0) {
+          if (mistakes[key] / charCount[key] > currentWorstRatio) {
+            currentWorstRatio = mistakes[key] / charCount[key];
           }
         }
       }
@@ -36,34 +36,34 @@ const HeatMap = () => {
     const replacePrefix = (divClass, toPrepend) =>
       toPrepend + " " + divClass.slice(divClass.indexOf(" ") + 1);
 
-    const [mistakes, wordCount] = displayingLifetime
-      ? [lifetimeMistakes, lifetimeWordCount]
-      : [tenMistakes, tenWordCount];
+    const [mistakes, charCount] = displayingLifetime
+      ? [lifetimeMistakes, lifetimeCharCount]
+      : [tenMistakes, tenCharCount];
 
     // console.log("10 Mist:", mistakes);
 
     const multiplier = displayingProportion
-      ? getWorstRatio(mistakes, wordCount)
+      ? getWorstRatio(mistakes, charCount)
       : 1;
 
     // console.log(mistakes);
     for (const key of Object.keys(mistakes)) {
       // console.log(key);
       const div = document.getElementById(key);
-      if (wordCount[key] == 0) {
+      if (charCount[key] == 0) {
         div.className = replacePrefix(div.className, "none");
-      } else if (mistakes[key] / wordCount[key] == 0) {
+      } else if (mistakes[key] / charCount[key] == 0) {
         div.className = replacePrefix(div.className, "perfect");
-      } else if (mistakes[key] / wordCount[key] <= 0.25 * multiplier) {
+      } else if (mistakes[key] / charCount[key] <= 0.25 * multiplier) {
         div.className = replacePrefix(div.className, "best-quarter");
-      } else if (mistakes[key] / wordCount[key] <= 0.5 * multiplier) {
+      } else if (mistakes[key] / charCount[key] <= 0.5 * multiplier) {
         div.className = replacePrefix(div.className, "best-half");
-      } else if (mistakes[key] / wordCount[key] <= 0.75 * multiplier) {
+      } else if (mistakes[key] / charCount[key] <= 0.75 * multiplier) {
         div.className = replacePrefix(div.className, "worst-half");
       } else {
         console.log(mistakes);
-        console.log(typeof mistakes[key], typeof wordCount[key]);
-        console.log(wordCount[key]);
+        console.log(typeof mistakes[key], typeof charCount[key]);
+        console.log(charCount[key]);
         div.className = replacePrefix(div.className, "worst-quarter");
       }
     }
@@ -78,17 +78,17 @@ const HeatMap = () => {
     holdKeyChars.current = div.innerHTML;
     holdKeyClass.current = div.className;
 
-    const [mistakes, wordCount] = displayingLifetime
-      ? [lifetimeMistakes, lifetimeWordCount]
-      : [tenLastMistakes, tenLastWordCount];
+    const [mistakes, charCount] = displayingLifetime
+      ? [lifetimeMistakes, lifetimeCharCount]
+      : [tenLastMistakes, tenLastCharCount];
     const id = div.id;
 
     div.className = "hovered " + div.className;
 
-    div.innerHTML = `<p>${wordCount[id] - mistakes[id]} / ${wordCount[id]}</p>`;
-    if (wordCount[id] != 0) {
+    div.innerHTML = `<p>${charCount[id] - mistakes[id]} / ${charCount[id]}</p>`;
+    if (charCount[id] != 0) {
       div.innerHTML += `<p>${
-        ((wordCount[id] - mistakes[id]) / wordCount[id]).toFixed(2) * 100
+        ((charCount[id] - mistakes[id]) / charCount[id]).toFixed(2) * 100
       }%</p>`;
     }
   };
@@ -104,29 +104,29 @@ const HeatMap = () => {
       const response = await helperFetch(
         "http://localhost:8000/userauth/get-user-heatmaps/",
         "GET",
-        null
+        null,
       );
       const data = await response.json();
       const lastTenTestsMistakes = data.last_ten_tests_mistakes;
       setTenLastMistakes(lastTenTestsMistakes);
-      const lastTenTestsWordCount = data.last_ten_tests_word_count;
-      setTenLastWordCount(lastTenTestsWordCount);
+      const lastTenTestsCharCount = data.last_ten_tests_char_count;
+      setTenLastCharCount(lastTenTestsCharCount);
       const lifetimeMistakes = data.lifetime_mistakes;
       setLifetimeMistakes(lifetimeMistakes);
-      const lifetimeWordCount = data.lifetime_word_count;
-      setLifetimeWordCount(lifetimeWordCount);
+      const lifetimeCharCount = data.lifetime_char_count;
+      setLifetimeCharCount(lifetimeCharCount);
 
       // console.log("10 MIST:", lastTenTestsMistakes);
       console.log("LIFE MIST:", lifetimeMistakes);
-      console.log("LIFE COUNT:", lifetimeWordCount);
+      console.log("LIFE COUNT:", lifetimeCharCount);
 
       colorKeyboard(
         lastTenTestsMistakes,
-        lastTenTestsWordCount,
+        lastTenTestsCharCount,
         lifetimeMistakes,
-        lifetimeWordCount,
+        lifetimeCharCount,
         false,
-        true
+        true,
       );
     };
     getAndSetHeatmaps();
@@ -143,11 +143,11 @@ const HeatMap = () => {
             setDisplayingLifetime(!displayingLifetime);
             colorKeyboard(
               tenLastMistakes,
-              tenLastWordCount,
+              tenLastCharCount,
               lifetimeMistakes,
-              lifetimeWordCount,
+              lifetimeCharCount,
               !temp,
-              displayingProportion
+              displayingProportion,
             );
           }}
         >
@@ -161,11 +161,11 @@ const HeatMap = () => {
             setDisplayingProportion(!displayingProportion);
             colorKeyboard(
               tenLastMistakes,
-              tenLastWordCount,
+              tenLastCharCount,
               lifetimeMistakes,
-              lifetimeWordCount,
+              lifetimeCharCount,
               displayingLifetime,
-              !temp
+              !temp,
             );
           }}
         >

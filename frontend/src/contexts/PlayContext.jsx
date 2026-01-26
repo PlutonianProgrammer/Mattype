@@ -1,11 +1,7 @@
 import { createContext, useEffect, useRef, useState } from "react";
 
-export const PlayContext = createContext();
-
-export const PlayProvider = ({ children }) => {
-  // PHASE:
-  const [phase, setPhase] = useState(1);
-  const MISTAKES_DEFAULT = {
+export const getZeroKeysDict = () => {
+  return {
     "~": 0,
     1: 0,
     2: 0,
@@ -55,21 +51,16 @@ export const PlayProvider = ({ children }) => {
     "/": 0,
     space: 0,
   };
+};
 
-  const mistakes = useRef(MISTAKES_DEFAULT);
-  const parWordCount = useRef({ ...MISTAKES_DEFAULT });
-  // COUNTDOWN:
-  const [countDownVar, setCountDownVar] = useState(100);
-  const countDown = async (startNum) => {
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    while (startNum > 0) {
-      setCountDownVar(startNum);
-      startNum -= 1;
-      await delay(1000);
-    }
-    setCountDownVar(0);
-    setPhase(3);
-  };
+export const PlayContext = createContext();
+
+export const PlayProvider = ({ children }) => {
+  // PHASE:
+  const [phase, setPhase] = useState(1);
+
+  const mistakes = useRef(getZeroKeysDict());
+  const parCharCount = useRef(getZeroKeysDict());
 
   // PROCESS PARAGRAPH INTO LINES AND WORDS
   const CHARS_PER_LINE = 75;
@@ -114,19 +105,82 @@ export const PlayProvider = ({ children }) => {
   useEffect(() => {
     if (phase == 1) {
       setParagraph("");
-      mistakes.current = MISTAKES_DEFAULT;
-      parWordCount.current = { ...MISTAKES_DEFAULT };
+      mistakes.current = getZeroKeysDict();
+      parCharCount.current = getZeroKeysDict();
     }
   }, [phase]);
 
   const [link, setLink] = useState(null);
 
+  const resetState = () => {
+    setPhase(1);
+    setWordsTyped(0);
+    setMistakesCount(0);
+    setTimeElapsed(0);
+    mistakes.current = getZeroKeysDict();
+    parCharCount.current = getZeroKeysDict();
+    setLink(null);
+  };
+  const getKey = (c) => {
+    const charCode = c.charCodeAt(0);
+    if (97 <= charCode && charCode <= 122) {
+    } else if (65 <= charCode && charCode <= 90) {
+      c = c.toLowerCase();
+    } else {
+      switch (c) {
+        case "`":
+          c = "~";
+        case "!":
+          c = "1";
+        case "@":
+          c = "2";
+        case "#":
+          c = "3";
+        case "$":
+          c = "4";
+        case "%":
+          c = "5";
+        case "^":
+          c = "6";
+        case "&":
+          c = "7";
+        case "*":
+          c = "8";
+        case "(":
+          c = "9";
+        case ")":
+          c = "0";
+        case "_":
+          c = "-";
+        case "+":
+          c = "=";
+        case "{":
+          c = "[";
+        case "}":
+          c = "]";
+        case "\\":
+          c = "|";
+        case ":":
+          c = ";";
+        case "'":
+          c = '"';
+        case "<":
+          c = ",";
+        case ">":
+          c = ".";
+        case "/":
+          c = "?";
+        case " ":
+          c = "space";
+      }
+    }
+
+    return c;
+  };
+
   return (
     <PlayContext.Provider
       value={{
-        countDown,
-        countDownVar,
-
         phase,
         setPhase,
 
@@ -144,9 +198,12 @@ export const PlayProvider = ({ children }) => {
         setParagraph,
 
         mistakes,
-        parWordCount,
+        parCharCount,
+
         link,
         setLink,
+        resetState,
+        getKey,
       }}
     >
       {children}

@@ -19,8 +19,9 @@ const InPlay = () => {
     parToLines,
     paragraph,
     mistakes,
-    parWordCount,
+    parCharCount,
     link,
+    getKey,
   } = useContext(PlayContext);
   const navigate = useNavigate();
 
@@ -47,86 +48,20 @@ const InPlay = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Reset game when user backs out of this page
-  useEffect(() => {
-    return () => {
-      if (charIndexRef.current < paragraph.length) {
-        setPhase(1);
-      }
-    };
-  }, []);
-
   const paragraphInLines = parToLines(paragraph);
 
   const charIndexRef = useRef(0);
   const madeMistakeInCurrentWord = useRef(false);
   const prevKeystrokeWasMistake = useRef(false);
 
-  const getKey = (c) => {
-    const charCode = c.charCodeAt(0);
-    if (97 <= charCode && charCode <= 122) {
-    } else if (65 <= charCode && charCode <= 90) {
-      c = c.toLowerCase();
-    } else {
-      switch (c) {
-        case "`":
-          c = "~";
-        case "!":
-          c = "1";
-        case "@":
-          c = "2";
-        case "#":
-          c = "3";
-        case "$":
-          c = "4";
-        case "%":
-          c = "5";
-        case "^":
-          c = "6";
-        case "&":
-          c = "7";
-        case "*":
-          c = "8";
-        case "(":
-          c = "9";
-        case ")":
-          c = "0";
-        case "_":
-          c = "-";
-        case "+":
-          c = "=";
-        case "{":
-          c = "[";
-        case "}":
-          c = "]";
-        case "\\":
-          c = "|";
-        case ":":
-          c = ";";
-        case "'":
-          c = '"';
-        case "<":
-          c = ",";
-        case ">":
-          c = ".";
-        case "/":
-          c = "?";
-        case " ":
-          c = "space";
-      }
-    }
-
-    return c;
-  };
-
   const handleKeyPress = (event) => {
     if (event.key != "Shift") {
       // Logging keycount:
       const properKey = getKey(paragraph.charAt(charIndexRef.current));
-      parWordCount.current[properKey] += 1;
+      parCharCount.current[properKey] += 1;
 
       const letterDiv = document.getElementById(
-        `LETTER-${charIndexRef.current}`
+        `LETTER-${charIndexRef.current}`,
       );
       if (event.key == paragraph.charAt(charIndexRef.current)) {
         letterDiv.className = "correct";
@@ -179,12 +114,6 @@ const InPlay = () => {
         onKeyDown={handleKeyPress}
         tabIndex={0}
       >
-        {/* {paragraph.split("").map((char, idx) => (
-          <div className='untyped' id={`LETTER-${idx}`} key={idx}>
-            {char}
-          </div>
-        ))} */}
-
         {paragraphInLines.map((line, i) => (
           <div className='line' key={i}>
             {line.split("").map((char, idx) => {
@@ -205,7 +134,13 @@ const InPlay = () => {
         ))}
       </div>
       <div className='quit-container'>
-        <BubbleDiv onClick={() => navigate("/")}>QUIT</BubbleDiv>
+        <BubbleDiv
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          QUIT
+        </BubbleDiv>
       </div>
       <div className='credit-container'>
         <a href={"https://creativecommons.org/licenses/by-sa/4.0/deed.en"}>

@@ -7,14 +7,14 @@ import BubbleDiv from "../../components/bubble-div/bubble-div.component";
 import "./stats.styles.scss";
 
 const Stats = () => {
-  const { user, helperFetch } = useContext(AuthContext);
+  const { user, helperFetch, fetchUser } = useContext(AuthContext);
   const [imageUrl, setImageUrl] = useState(null);
   useEffect(() => {
     const getGraph = async () => {
       const response = await helperFetch(
         "http://localhost:8000/userauth/get-user-graph/",
         "GET",
-        null
+        null,
       );
       console.log("RESPONSE:", response);
       const blob = await response.blob();
@@ -22,6 +22,10 @@ const Stats = () => {
       setImageUrl(url);
     };
     getGraph();
+  }, []);
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
   if (user) {

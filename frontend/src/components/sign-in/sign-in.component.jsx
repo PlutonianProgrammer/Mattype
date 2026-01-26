@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 import BubbleDiv from "../bubble-div/bubble-div.component";
+import GoogleLoginButton from "../google-login-button";
 
 import "./sign-in.styles.scss";
 
@@ -34,7 +35,7 @@ const SignIn = () => {
       <BubbleDiv className='guest-button' onClick={guestLogin}>
         Sign In As Guest
       </BubbleDiv>
-      <BubbleDiv className='google-button'>Sign In With Google</BubbleDiv>
+      <GoogleLoginButton />
     </div>
   );
 };

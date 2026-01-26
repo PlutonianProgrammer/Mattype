@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -14,82 +14,33 @@ const SubmissionPage = () => {
     wordsTyped,
     mistakesCount,
     timeElapsed,
-    setPhase,
-    setWordsTyped,
-    setMistakesCount,
-    setTimeElapsed,
-    MISTAKES_DEFAULT,
+    resetState,
     mistakes,
-    parWordCount,
-    setLink,
+    parCharCount,
   } = useContext(PlayContext);
   const { helperFetch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // const submitScore = async (wpm) => {
-  // const response = await fetch(
-  //   "http://localhost:8000/userauth/submit-score/",
-  //   {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     body: JSON.stringify({ wpm }),
-  //   }
-  // );
-  //   const response = await helperFetch(
-  //     "http://localhost:8000/userauth/submit-score",
-  //     wpm
-  //   );
-  //   return response;
-  // };
-
   const handleSubmit = async () => {
-    // console.log("OLD:", accessToken);
-    // let response = await submitScore(
-    //   accessToken,
-    //   wordsTyped / (timeElapsed / 1000 / 60)
-    // );
-    // if (!response.ok) {
-    //   console.log("ISSUE OCCURRED IN SUBMITTING SCORE");
-    //   const newToken = refreshAccessToken();
-    //   console.log("NEW:", newToken);
-    //   console.log("TRYING AGAIN");
-    //   response = await submitScore(
-    //     newToken,
-    //     wordsTyped / (timeElapsed / 1000 / 60)
-    //   );
-    //   if (!response.ok) {
-    //     console.log("FAILED");
-    //     console.log(response);
-    //     return;
-    //   }
     console.log("MIST:", mistakes.current);
-    console.log("WC:", parWordCount.current);
+    console.log("WC:", parCharCount.current);
     const response = await helperFetch(
       "http://localhost:8000/userauth/submit-score/",
       "POST",
       {
         wpm: wordsTyped / (timeElapsed / 1000 / 60),
         mistakes: mistakes.current,
-        wordCount: parWordCount.current,
-      }
+        charCount: parCharCount.current,
+      },
     );
-    setPhase(1);
-    setWordsTyped(0);
-    setMistakesCount(0);
-    setTimeElapsed(0);
-    mistakes.current = MISTAKES_DEFAULT;
-    parWordCount.current = { ...MISTAKES_DEFAULT };
-    setLink(null);
+    resetState();
     navigate("/");
   };
-  // };
+
+  useEffect(() => resetState, []);
 
   return (
     <div className='submission-page-container'>
-      <h1>CONGRADULATIONS</h1>
       <div className='body-container'>
         <BubbleDiv className='stats-container'>
           <ul>
