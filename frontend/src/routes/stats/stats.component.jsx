@@ -22,11 +22,11 @@ const Stats = () => {
       setImageUrl(url);
     };
     getGraph();
-  }, []);
+  }, [helperFetch]);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   if (user) {
     return (
@@ -45,7 +45,7 @@ const Stats = () => {
           )}
         </div>
         <div className='graph-container'>
-          {imageUrl && <img id='graph' src={imageUrl} />}
+          {imageUrl && <img id='graph' src={imageUrl} alt='' />}
         </div>
       </div>
     );
