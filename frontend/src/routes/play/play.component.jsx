@@ -20,7 +20,7 @@ const Play = () => {
       console.log("RESET");
       resetState();
     };
-  }, []);
+  }, [resetState]);
   if (phase == 1) {
     return (
       <div className='play-page'>

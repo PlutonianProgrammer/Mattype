@@ -130,7 +130,7 @@ const HeatMap = () => {
       );
     };
     getAndSetHeatmaps();
-  }, []);
+  }, [helperFetch]);
 
   return (
     <div className='heatmap-container'>

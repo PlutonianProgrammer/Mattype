@@ -11,9 +11,6 @@ const Leaderboard = () => {
   const [bestDisplay, setBestDisply] = useState(null);
   const [avgDisplay, setAvgDisplay] = useState(null);
 
-  const [placement, setPlacement] = useState(-1);
-  const [participants, setParticipants] = useState(-1);
-
   const [scoreToFetch, setScoreToFetch] = useState("avg");
 
   const { user, helperFetch } = useContext(AuthContext);
@@ -32,14 +29,14 @@ const Leaderboard = () => {
       setAvgDisplay(data.avg_data);
     };
     fetchData();
-  }, []);
+  }, [helperFetch]);
 
   const switchScoreToFetch = () => {
     if (scoreToFetch == "best") setScoreToFetch("avg");
     else setScoreToFetch("best");
   };
 
-  const placementToSuffix = () => {
+  const placementToSuffix = (placement) => {
     const last_digit = placement % 10;
     if (last_digit == 1) return "st";
     else if (last_digit == 2) return "nd";
@@ -70,7 +67,12 @@ const Leaderboard = () => {
                 {scoreToFetch == "best"
                   ? bestDisplay.placement
                   : avgDisplay.placement}
-                {placementToSuffix()} of {participants} Participants
+                {placementToSuffix(
+                  scoreToFetch == "best"
+                    ? bestDisplay.placement
+                    : avgDisplay.placement,
+                )}{" "}
+                of {bestDisplay.participants} Participants
               </h4>
             </BubbleDiv>
           )}

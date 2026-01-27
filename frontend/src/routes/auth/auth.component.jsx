@@ -16,7 +16,7 @@ const Auth = () => {
     if (user) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
   if (!user) {
     return (
       <div className='auth-container'>
