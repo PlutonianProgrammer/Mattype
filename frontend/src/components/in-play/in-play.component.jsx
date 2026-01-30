@@ -21,6 +21,7 @@ const InPlay = () => {
     mistakes,
     parCharCount,
     link,
+    resetState,
     getKey,
   } = useContext(PlayContext);
   const navigate = useNavigate();
@@ -137,6 +138,7 @@ const InPlay = () => {
         <BubbleDiv
           onClick={() => {
             navigate("/");
+            resetState();
           }}
         >
           QUIT

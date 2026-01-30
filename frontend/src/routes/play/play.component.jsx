@@ -11,16 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Play = () => {
-  const { phase, setPhase, resetState } = useContext(PlayContext);
+  const { phase, setPhase } = useContext(PlayContext);
   const { guestLogin, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    return () => {
-      console.log("RESETING DUE TO DISMOUNT");
-      resetState();
-    };
-  }, [resetState]);
   if (phase == 1) {
     return (
       <div className='play-page'>
