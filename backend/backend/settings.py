@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+import dj_database_url
 import environ
 import os
 
@@ -33,7 +34,7 @@ GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
 DEBUG = env.bool('DEBUG')
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,7 +86,7 @@ MIDDLEWARE = [
 
 # Cors allowed origins
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    '*',
 ]
 
 # Djoser:
@@ -116,11 +117,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
 }
 
 
