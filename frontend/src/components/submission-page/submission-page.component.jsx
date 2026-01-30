@@ -25,7 +25,7 @@ const SubmissionPage = () => {
     console.log("MIST:", mistakes.current);
     console.log("WC:", parCharCount.current);
     const response = await helperFetch(
-      "http://localhost:8000/userauth/submit-score/",
+      process.env.REACT_APP_BACKEND_URL + "/userauth/submit-score/",
       "POST",
       {
         wpm: wordsTyped / (timeElapsed / 1000 / 60),
