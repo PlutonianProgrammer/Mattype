@@ -86,7 +86,7 @@ MIDDLEWARE = [
 
 # Cors allowed origins
 CORS_ALLOWED_ORIGINS = [
-    '*',
+    'https://mattype.vercel.app/',
 ]
 
 # Djoser:
