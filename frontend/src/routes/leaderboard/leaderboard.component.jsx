@@ -29,7 +29,7 @@ const Leaderboard = () => {
       setAvgDisplay(data.avg_data);
     };
     fetchData();
-  }, [helperFetch]);
+  }, []);
 
   const switchScoreToFetch = () => {
     if (scoreToFetch == "best") setScoreToFetch("avg");

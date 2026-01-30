@@ -22,11 +22,11 @@ const Stats = () => {
       setImageUrl(url);
     };
     getGraph();
-  }, [helperFetch]);
+  }, []);
 
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+  }, []);
 
   if (user) {
     return (
