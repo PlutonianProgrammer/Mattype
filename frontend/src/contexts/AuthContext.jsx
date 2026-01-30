@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 
-const AUTHENTICATION_URL_HEAD = "http://localhost:8000/userauth/auth/";
+const AUTHENTICATION_URL_HEAD =
+  process.env.REACT_APP_BACKEND_URL + "/userauth/auth/";
 
 export const AuthContext = createContext();
 

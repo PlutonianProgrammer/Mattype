@@ -21,7 +21,7 @@ const GoogleLoginButton = () => {
   const handleCredentialResponse = async (response) => {
     const idToken = response.credential;
     const backendResponse = await fetch(
-      "http://localhost:8000/userauth/google-auth/",
+      process.env.REACT_APP_BACKEND_URL + "/userauth/google-auth/",
       {
         method: "POST",
         headers: {

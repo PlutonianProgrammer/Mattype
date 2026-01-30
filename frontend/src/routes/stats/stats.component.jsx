@@ -12,7 +12,7 @@ const Stats = () => {
   useEffect(() => {
     const getGraph = async () => {
       const response = await helperFetch(
-        "http://localhost:8000/userauth/get-user-graph/",
+        process.env.REACT_APP_BACKEND_URL + "/userauth/get-user-graph/",
         "GET",
         null,
       );

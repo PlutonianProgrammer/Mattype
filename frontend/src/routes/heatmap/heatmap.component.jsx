@@ -102,7 +102,7 @@ const HeatMap = () => {
   useEffect(() => {
     const getAndSetHeatmaps = async () => {
       const response = await helperFetch(
-        "http://localhost:8000/userauth/get-user-heatmaps/",
+        process.env.REACT_APP_BACKEND_URL + "/userauth/get-user-heatmaps/",
         "GET",
         null,
       );

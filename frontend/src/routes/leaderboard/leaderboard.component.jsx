@@ -18,7 +18,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await helperFetch(
-        "http://localhost:8000/userauth/get-leaderboard/",
+        process.env.REACT_APP_BACKEND_URL + "/userauth/get-leaderboard/",
         "GET",
         null,
       );
