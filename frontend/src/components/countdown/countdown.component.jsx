@@ -30,7 +30,7 @@ const CountDown = () => {
       let paragraph = "";
       let i = 1;
       while ((paragraph.length < 300 || !isEnglish(paragraph)) && i < 10) {
-        console.log("FETCH #", i);
+        console.log("FETCH #", i, "LENGTH:", paragraph.length);
         const response = await fetch(
           "https://en.wikipedia.org/api/rest_v1/page/random/summary",
           { headers: { Accept: "application/json" } },

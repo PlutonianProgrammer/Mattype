@@ -25,7 +25,7 @@ const InPlay = () => {
   } = useContext(PlayContext);
   const navigate = useNavigate();
 
-  // HANDLE TIMER
+  // HANDLE STOPWATCH
   useEffect(() => {
     const startTime = new Date();
     const intervalID = setInterval(() => {

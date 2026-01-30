@@ -17,7 +17,7 @@ const Play = () => {
 
   useEffect(() => {
     return () => {
-      console.log("RESET");
+      console.log("RESETING DUE TO DISMOUNT");
       resetState();
     };
   }, [resetState]);
