@@ -11,8 +11,3 @@ class CustomUserDataSerializer(UserSerializer):
     class Meta:
         model = CustomUser
         fields = ['email', 'username', 'best_wpm', 'avg_wpm']
-
-class CustomUserLogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['wpm_log']
