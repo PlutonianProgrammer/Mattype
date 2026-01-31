@@ -8,7 +8,10 @@ import csv
 class CustomUser(AbstractUser):
     best_wpm = models.FloatField(default=0)
     avg_wpm = models.FloatField(default=0)
-    wpm_log = models.FileField(upload_to='uploads/')
+    
+    # These act as the date and wpm for each typing test
+    date_list = models.JSONField(default=list)
+    wpm_list = models.JSONField(default=list)
 
     # These fields measure the accuracy of each key
 
@@ -37,19 +40,12 @@ class CustomUser(AbstractUser):
         # Write new score to CSV
         now = datetime.now()
         day = now.strftime('%m-%d-%Y')
-        with open (self.wpm_log.path, 'a', newline='') as log:
-            writer = csv.writer(log)
-            writer.writerow([day, new_wpm])
+
+        self.date_list.append(day)
+        self.wpm_list.append(float(new_wpm))
 
         # Recalculate avg wpm
-        with open(self.wpm_log.path) as log:
-            sum_of_wpm = 0
-            count = 0
-            reader = csv.DictReader(log)
-            for row in reader:
-                sum_of_wpm += float(row['wpm'])
-                count += 1
-            self.avg_wpm = sum_of_wpm / count
+        self.avg_wpm = sum(self.wpm_list) / len(self.wpm_list)
 
         # Update data that stores key accuracy
         self.manageMistakeProfiles(mistakes, char_count)
@@ -78,7 +74,7 @@ class CustomUser(AbstractUser):
         # If-statement handles whether the last-10-tests-tracker should append or overwrite values
         if (self.tracking_index < 10):
             # Append, as there are less than 10 entries
-            self.last_ten_tests_mistakes.append(mistakes) 
+            self.last_ten_tests_mistakes.append(mistakes)
             self.last_ten_tests_char_count.append(char_count)
         else:
             # Overwrite oldest entry of last 10
@@ -95,11 +91,4 @@ class CustomUser(AbstractUser):
         This will return the day and wpm of each typing test taken for this user.
         The resulting data is used as the x and y axis data of a graph sent to the frontend to track progress
         '''
-        all_days = []
-        all_wpms = []
-        with open(self.wpm_log.path) as log:
-            reader = csv.DictReader(log)
-            for row in reader:
-                all_days.append(row['day'])
-                all_wpms.append(float(row['wpm']))
-        return (all_days, all_wpms)
+        return (self.date_list, self.wpm_list)
