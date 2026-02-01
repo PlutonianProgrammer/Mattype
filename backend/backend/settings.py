@@ -87,7 +87,9 @@ MIDDLEWARE = [
 # Cors allowed origins
 CORS_ALLOWED_ORIGINS = [
     os.environ.get("FRONTEND_URL"),
-    os.environ.get("BACKEND_URL")
+    os.environ.get("BACKEND_URL"),
+    'http://localhost:3000',
+    'http://localhost:8000',
 ]
 
 # Djoser:
@@ -127,7 +129,9 @@ DATABASES = {
 
 CSRF_TRUSTED_ORIGINS = [
     os.environ.get("BACKEND_URL"),
-    os.environ.get("FRONTEND_URL")
+    os.environ.get("FRONTEND_URL"),
+    'http://localhost:3000',
+    'http://localhost:8000',
 ]
 
 

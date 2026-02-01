@@ -3,17 +3,19 @@
   flex-direction: column;
   background-color: inherit;
   padding: 100px;
-  * {
-    font-size: large;
-    padding: 10px;
-  }
-  h2 {
-    font-size: xx-large;
-  }
-  .guest-button {
-    background-color: rgb(82, 242, 82);
-  }
-  .google-button {
-    background-color: rgb(83, 83, 250);
+  .non-google-elements {
+    display: flex;
+    flex-direction: column;
+    * {
+      padding: 10px;
+      font-size: large;
+    }
+    h2 {
+      font-size: xx-large;
+    }
+    .guest-button {
+      background-color: rgb(82, 242, 82);
+      margin-bottom: 10px;
+    }
   }
 }

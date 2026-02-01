@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     fetchUser(accessToken);
   }, [refreshToken]);
 
+  const [loginError, setLoginError] = useState([]);
   const login = async (username, password) => {
     console.log("LOG IN EXECUTED");
     const response = await fetch(AUTHENTICATION_URL_HEAD + "jwt/create", {
@@ -39,9 +40,13 @@ export const AuthProvider = ({ children }) => {
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
       fetchUser(data.access);
+    } else {
+      const data = await response.json();
+      setLoginError(data.detail);
     }
   };
 
+  const [signupErrors, setSignupErrors] = useState([]);
   const signUp = async (username, password, re_password, email) => {
     //console.log("SIGN-UP EXECUTED");
     const response = await fetch(AUTHENTICATION_URL_HEAD + "users/", {
@@ -54,6 +59,10 @@ export const AuthProvider = ({ children }) => {
     } else {
       console.log("ERROR IN SIGNUP");
       console.error("Signup failed:", response);
+      const data = await response.json();
+      const usernameErrors = data.username ?? [];
+      const passwordErrors = data.password ?? [];
+      setSignupErrors([...usernameErrors, ...passwordErrors]);
     }
   };
 
@@ -186,7 +195,11 @@ export const AuthProvider = ({ children }) => {
         fetchUser,
 
         signUp,
+        signupErrors,
+        setSignupErrors,
+
         login,
+        loginError,
         logout,
 
         helperFetch,

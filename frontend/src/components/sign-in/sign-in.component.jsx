@@ -8,7 +8,7 @@ import GoogleLoginButton from "../google-login-button";
 import "./sign-in.styles.scss";
 
 const SignIn = () => {
-  const { login, guestLogin } = useContext(AuthContext);
+  const { login, guestLogin, loginError } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = () => {
@@ -16,26 +16,35 @@ const SignIn = () => {
     setUsername("");
     setPassword("");
   };
+  const handleKeyDown = (event) => {
+    if (event.key == "Enter") handleSubmit();
+  };
   return (
     <div className='sign-in-container'>
-      <h2>Sign In</h2>
-      <input
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder='username'
-      />
-      <input
-        value={password}
-        type='password'
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder='password'
-      />
-      <BubbleDiv onClick={handleSubmit}>Sign In</BubbleDiv>
-      <br />
-      <BubbleDiv className='guest-button' onClick={guestLogin}>
-        Sign In As Guest
-      </BubbleDiv>
+      <div className='non-google-elements'>
+        <h2>Sign In</h2>
+        <input
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder='username'
+          onKeyDown={handleKeyDown}
+        />
+        <input
+          value={password}
+          type='password'
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder='password'
+          onKeyDown={handleKeyDown}
+        />
+        <BubbleDiv onClick={handleSubmit}>Sign In</BubbleDiv>
+        <br />
+        <BubbleDiv className='guest-button' onClick={guestLogin}>
+          Sign In As Guest
+        </BubbleDiv>
+      </div>
       <GoogleLoginButton />
+
+      <p>{loginError}</p>
     </div>
   );
 };

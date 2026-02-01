@@ -11,16 +11,19 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, signupErrors, setSignupErrors } = useContext(AuthContext);
   const handleSubmit = () => {
     if (password != rePassword) {
-      alert("Passwords do not match");
+      setSignupErrors(["Passwords do not match"]);
       return;
     }
     signUp(username, password);
     setUsername("");
     setPassword("");
     setRePassword("");
+  };
+  const handleKeyDown = (event) => {
+    if (event.key == "Enter") handleSubmit();
   };
   return (
     <div className='sign-up-container'>
@@ -29,21 +32,28 @@ const SignUp = () => {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder='username'
+        onKeyDown={handleKeyDown}
       />
-
       <input
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         type='password'
         placeholder='password'
+        onKeyDown={handleKeyDown}
       />
       <input
         value={rePassword}
         onChange={(e) => setRePassword(e.target.value)}
         type='password'
         placeholder='re-password'
+        onKeyDown={handleKeyDown}
       />
       <BubbleDiv onClick={handleSubmit}>Sign Up</BubbleDiv>
+      <ul>
+        {signupErrors.map((error) => (
+          <li>{error}</li>
+        ))}
+      </ul>
     </div>
   );
 };
