@@ -85,11 +85,15 @@ const HeatMap = () => {
 
     div.className = "hovered " + div.className;
 
-    div.innerHTML = `<p>${charCount[id] - mistakes[id]} / ${charCount[id]}</p>`;
-    if (charCount[id] != 0) {
-      div.innerHTML += `<p>${
-        ((charCount[id] - mistakes[id]) / charCount[id]).toFixed(2) * 100
-      }%</p>`;
+    if (charCount[id] != null) {
+      div.innerHTML = `<p>${charCount[id] - mistakes[id]} / ${charCount[id]}</p>`;
+      if (charCount[id] != 0) {
+        div.innerHTML += `<p>${
+          ((charCount[id] - mistakes[id]) / charCount[id]).toFixed(2) * 100
+        }%</p>`;
+      }
+    } else {
+      div.innerHTML = "0 / 0";
     }
   };
   const handleMouseLeave = (e) => {

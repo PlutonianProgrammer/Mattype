@@ -1,7 +1,9 @@
 .in-play-page {
-  background-color: gray;
   height: 100vh;
   padding: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .heads-up-display {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -13,6 +15,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-left: 40px;
+      padding-right: 40px;
     }
   }
   .paragraph-holder {
