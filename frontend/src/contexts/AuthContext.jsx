@@ -8,20 +8,20 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   // useState on access/refresh tokens and user
   const [accessToken, setAccessToken] = useState(
-    localStorage.getItem("access"),
+    localStorage.getItem("mattype-access"),
   );
   const [refreshToken, setRefreshToken] = useState(
-    localStorage.getItem("refresh"),
+    localStorage.getItem("mattype-refresh"),
   );
   const [user, setUser] = useState(null);
 
   // when accessToken/refreshToken variables affected, change them on browser
   useEffect(() => {
-    localStorage.setItem("access", accessToken);
+    localStorage.setItem("mattype-access", accessToken);
     //console.log("USESTATE ACCESS ON", accessToken);
   }, [accessToken]);
   useEffect(() => {
-    localStorage.setItem("refresh", refreshToken);
+    localStorage.setItem("mattype-refresh", refreshToken);
     //console.log("USESTATE REFRESH ON", refreshToken);
     fetchUser(accessToken);
   }, [refreshToken]);
@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }) => {
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
+    localStorage.removeItem("mattype-access");
+    localStorage.removeItem("mattype-refresh");
   };
 
   const refreshAccessToken = async () => {
