@@ -159,6 +159,8 @@ def get_user_heatmaps(request):
         'lifetime_char_count': user.lifetime_char_count
     })
 
+
+
 @api_view(['POST'])
 def google_auth(request):
     '''
@@ -167,13 +169,14 @@ def google_auth(request):
     :param request: Contains auth token from google
     '''
     token = request.data.get('id_token')
-
     try:
         # Throws error if invalid token
         idinfo = id_token.verify_oauth2_token(
             token,
             requests.Request(),
-            settings.GOOGLE_CLIENT_ID
+            settings.GOOGLE_CLIENT_ID,
+            #clock_skew_in_seconds=10
+            clock_skew_in_seconds=int(settings.CLOCK_SKEW_SECONDS),
         )
 
         # Create/get user
@@ -194,4 +197,5 @@ def google_auth(request):
         })
     
     except Exception as e:
+        print("ERROR:", e)
         return Response({'error': 'Invalid token'}, status=400)
