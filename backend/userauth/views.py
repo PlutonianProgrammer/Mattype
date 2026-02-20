@@ -102,15 +102,22 @@ def leaderboard(request):
         'avg_data': helper_leaderboard('avg_wpm', username),
     })
 
+import matplotlib.dates as mdates
+from datetime import datetime
+
 @api_view(['get'])
 @permission_classes([permissions.IsAuthenticated])
 def get_user_graph(request):
     date_and_wpm_tuple = request.user.getDataOfGraph()
+    x_axis_configured = [datetime.strptime(d, "%m-%d-%Y") for d in date_and_wpm_tuple[0]]
     
     # Create and style graph
     fig, ax = plt.subplots(figsize=(8, 6))
-    ax.scatter(date_and_wpm_tuple[0], date_and_wpm_tuple[1],
+    ax.scatter(x_axis_configured, date_and_wpm_tuple[1],
                 color="#42f2ff")
+    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%Y"))
+    plt.gcf().autofmt_xdate()
 
     fig.patch.set_facecolor('#808080')
 

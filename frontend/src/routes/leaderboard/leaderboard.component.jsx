@@ -13,7 +13,11 @@ const Leaderboard = () => {
 
   const [scoreToFetch, setScoreToFetch] = useState("avg");
 
-  const { user, helperFetch } = useContext(AuthContext);
+  const { user, helperFetch, fetchUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
