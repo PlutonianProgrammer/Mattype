@@ -24,6 +24,7 @@ const Home = () => {
           <li>
             Leaderboard Function Displays Users' Scores Relative to One Another
           </li>
+          <li>Supports Login With Google</li>
         </ul>
       </div>
       <div className='home-container'>
