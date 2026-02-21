@@ -28,13 +28,17 @@ const About = () => {
       <h2>Brief Overview Video of this Project:</h2>
       <ul>
         <li>
-          <a>FILLER</a>
+          <a href='https://www.youtube.com/watch?v=l1744SxKSJ8'>
+            https://www.youtube.com/watch?v=l1744SxKSJ8
+          </a>
         </li>
       </ul>
       <h2>In-Depth Overview Video of this Project:</h2>
       <ul>
         <li>
-          <a>FILLER</a>
+          <a href='https://www.youtube.com/watch?v=qNsuvt3IwKU'>
+            https://www.youtube.com/watch?v=qNsuvt3IwKU
+          </a>
         </li>
       </ul>
     </div>
