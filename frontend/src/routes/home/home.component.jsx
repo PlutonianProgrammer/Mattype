@@ -25,10 +25,6 @@ const Home = () => {
             Leaderboard Function Displays Users' Scores Relative to One Another
           </li>
           <li>Supports Login With Google</li>
-          <li className='red'>
-            BACKEND CURRENTLY DOWN AS OF MARCH 3RD- PLEASE SEE LINKS ON ABOUT
-            PAGE
-          </li>
         </ul>
       </div>
       <div className='home-container'>
